@@ -1,0 +1,22 @@
+#cache
+__pycache__/
+
+#vscode
+.vscode/
+
+#cfg
+faceyelpapi.cfg
+
+#pytest
+.pytest_cache
+
+*.log
+*.pid
+*.xlsx
+*.json
+*.xml
+
+# pyenv local
+.python-version
+
+.DS_Store
