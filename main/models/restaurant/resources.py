@@ -3,12 +3,16 @@ from marshmallow import Schema, fields, validate
 
 # Requests
 class RequestRestaurantListSchema(Schema):
-  business_name = fields.Str(required=True,
-                             validate=validate.Length(min=3, max=255))
-  latitude = fields.Float(required=True,
-                          validate=validate.Range(min=-90, max=90))
-  longitude = fields.Float(required=True,
-                           validate=validate.Range(min=-180, max=180))
+  business_name = fields.Str(required = True,
+                            validate = validate.Length(min = 3, max = 255))
+  latitude = fields.Float(required = True,
+                          validate = validate.Range(min = -90, max = 90))
+  longitude = fields.Float(required = True,
+                           validate = validate.Range(min = -180, max = 180))
+  radius = fields.Float(required = False,
+                        validate = validate.Range(min = 1))
+  length = fields.Integer(required = False,
+                        validate = validate.Range(min = 1, max = 100))
 
 
 # Responses
@@ -17,6 +21,8 @@ class BusinessList(Schema):
   business_name = fields.Str(data_key="businessName")
   address = fields.Str()
   city = fields.Str()
+  longitude = fields.Float()
+  latitude = fields.Float()
 
 
 class ResponseRestaurantListSchema(Schema):
