@@ -22,8 +22,13 @@ from sqlalchemy import func
     summary="Restaurant List",
     description="Shows list of Restaurants"
 )
-def restaurant_list(business_name, latitude, longitude, radius, length):
-  business_name = escape_wildcards(business_name, ("%", "_"))
+def restaurant_list(**kwargs):
+  business_name = escape_wildcards(kwargs["business_name"], ("%", "_"))
+  latitude = kwargs["latitude"]
+  longitude = kwargs["longitude"]
+  radius = kwargs["radius"]
+  length = kwargs.get("length", None)
+
   query = db.select(
               t_business.c.business_id,
               t_business.c.business_name,
@@ -40,8 +45,10 @@ def restaurant_list(business_name, latitude, longitude, radius, length):
                    .op("@>")(func.ll_to_earth(t_business.c.latitude, t_business.c.longitude)))\
             .where(func.lower(t_business.c.business_name).like(f"%{business_name.lower()}%"))\
             .order_by(func.earth_distance(func.ll_to_earth(latitude,longitude), 
-                                          func.ll_to_earth(t_business.c.latitude, t_business.c.longitude)))\
-            .limit(length)
+                                          func.ll_to_earth(t_business.c.latitude, t_business.c.longitude)))
+  if length is not None:
+    query = query.limit(length)
+
   result = db.session.execute(query)
   business_results={}
   business_results["business_list"] = [{

@@ -11,8 +11,7 @@ class RequestRestaurantListSchema(Schema):
                            validate = validate.Range(min = -180, max = 180))
   radius = fields.Float(required = True,
                         validate = validate.Range(min = 1, max = 100000))
-  length = fields.Integer(required = True,
-                          validate = validate.Range(min = 1, max = 100))
+  length = fields.Integer(validate = validate.Range(min = 1))
 
 
 # Responses
