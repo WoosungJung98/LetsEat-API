@@ -29,6 +29,16 @@ class ResponseRestaurantListSchema(Schema):
   business_list = fields.List(fields.Nested(BusinessList), data_key="businessList")
 
 
+class BusinessHour(Schema):
+  mon = fields.Str()
+  tues = fields.Str()
+  wed = fields.Str()
+  thurs  = fields.Str()
+  fri= fields.Str()
+  sat = fields.Str()
+  sun = fields.Str()
+
+
 class BusinessInfo(Schema):
   business_id = fields.Str(data_key="businessID")
   business_name = fields.Str(data_key="businessName")
@@ -43,7 +53,7 @@ class BusinessInfo(Schema):
   is_open = fields.Bool(data_key="isOpen")
   attributes = fields.Dict()
   categories = fields.List(fields.Str())
-  hours = fields.Dict()
+  hours = fields.Nested(BusinessHour)
 
 
 class ResponseRestaurantInfoSchema(Schema):

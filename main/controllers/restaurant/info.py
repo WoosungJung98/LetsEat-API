@@ -37,13 +37,13 @@ def restaurant_info(business_id):
       "is_open": restaurant.is_open,
       "categories": restaurant.categories,
       "hours": {
-        "Mon" : restaurant.hours.get('Monday', "Closed"),
-        "Tues" : restaurant.hours.get('Tuesday', "Closed"),
-        "Wed" : restaurant.hours.get('Wednesday', "Closed"),
-        "Thurs" : restaurant.hours.get('Thursday', "Closed"),
-        "Fri" : restaurant.hours.get('Friday', "Closed"),
-        "Sat" : restaurant.hours.get('Saturday', "Closed"),
-        "Sun" : restaurant.hours.get('Sunday', "Closed")
+        "mon" : restaurant.hours.get('Monday', "Closed"),
+        "tues" : restaurant.hours.get('Tuesday', "Closed"),
+        "wed" : restaurant.hours.get('Wednesday', "Closed"),
+        "thurs" : restaurant.hours.get('Thursday', "Closed"),
+        "fri" : restaurant.hours.get('Friday', "Closed"),
+        "sat" : restaurant.hours.get('Saturday', "Closed"),
+        "sun" : restaurant.hours.get('Sunday', "Closed")
       }
     }
   }
