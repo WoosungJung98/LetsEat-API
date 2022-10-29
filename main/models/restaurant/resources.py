@@ -9,10 +9,10 @@ class RequestRestaurantListSchema(Schema):
                           validate = validate.Range(min = -90, max = 90))
   longitude = fields.Float(required = True,
                            validate = validate.Range(min = -180, max = 180))
-  radius = fields.Float(required = False,
-                        validate = validate.Range(min = 1))
-  length = fields.Integer(required = False,
-                        validate = validate.Range(min = 1, max = 100))
+  radius = fields.Float(required = True,
+                        validate = validate.Range(min = 1, max = 100000))
+  length = fields.Integer(required = True,
+                          validate = validate.Range(min = 1, max = 100))
 
 
 # Responses
@@ -23,6 +23,7 @@ class BusinessList(Schema):
   city = fields.Str()
   longitude = fields.Float()
   latitude = fields.Float()
+  distance = fields.Float()
 
 
 class ResponseRestaurantListSchema(Schema):
