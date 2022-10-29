@@ -23,6 +23,7 @@ from sqlalchemy import func
     description="Shows list of Restaurants"
 )
 def restaurant_list(business_name, latitude, longitude, radius, length):
+  business_name = escape_wildcards(business_name, ("%", "_"))
   query = db.select(t_business.c.business_id, t_business.c.business_name, t_business.c.address, t_business.c.city, t_business.c.latitude, t_business.c.longitude)\
             .where(func.earth_distance(func.ll_to_earth(latitude, longitude),
                                        func.ll_to_earth(t_business.c.latitude, t_business.c.longitude)) < radius)\
