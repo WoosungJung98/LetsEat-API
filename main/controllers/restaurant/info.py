@@ -35,16 +35,15 @@ def restaurant_info(business_id):
       "stars": restaurant.stars,
       "review_count": restaurant.review_count,
       "is_open": restaurant.is_open,
-      #attributes
       "categories": restaurant.categories,
       "hours": {
-        "Mon" : restaurant.hours['Monday'],
-        "Tues" : restaurant.hours['Tuesday'],
-        "Wed" : restaurant.hours['Wednesday'],
-        "Thurs" : restaurant.hours['Thursday'],
-        "Fri" : restaurant.hours['Friday'],
-        "Sat" : restaurant.hours['Saturday'],
-        "Sun" : restaurant.hours['Sunday']
+        "Mon" : restaurant.hours.get('Monday', "Closed"),
+        "Tues" : restaurant.hours.get('Tuesday', "Closed"),
+        "Wed" : restaurant.hours.get('Wednesday', "Closed"),
+        "Thurs" : restaurant.hours.get('Thursday', "Closed"),
+        "Fri" : restaurant.hours.get('Friday', "Closed"),
+        "Sat" : restaurant.hours.get('Saturday', "Closed"),
+        "Sun" : restaurant.hours.get('Sunday', "Closed")
       }
     }
   }
