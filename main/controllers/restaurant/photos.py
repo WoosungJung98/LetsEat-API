@@ -18,7 +18,6 @@ from main.models.photos import t_photos
     description="Return photos for a given business"
 )
 def business_photos(business_id):
-  print(business_id)  
   business_photos_query=db.select(t_photos.c.business_id, t_photos.c.photo_id, t_photos.c.caption, t_photos.c.label).filter(t_photos.c.business_id == business_id)
   result = db.session.execute(business_photos_query)
 
@@ -28,7 +27,5 @@ def business_photos(business_id):
     "caption": photo.caption,
     "label": photo.label,
     } for photo in result]
-  print('printing results')
-  print(business_photo_result)
   return business_photo_result
 
