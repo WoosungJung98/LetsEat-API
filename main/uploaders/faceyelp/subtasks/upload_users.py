@@ -13,7 +13,7 @@ class UploadUser(BaseTask):
         print("\n====================Start Uploading User====================\n")
         start_time = time.time()
 
-        INSERT_LIMIT = 1000
+        INSERT_LIMIT = 5
         column_names = ["user_id","user_name", "email", "profile_photo",
                             "password_digest","review_count","useful","funny",
                                 "cool","created_at", "updated_at"]
@@ -22,6 +22,7 @@ class UploadUser(BaseTask):
         processed_line = []
         for line in f:
             if len(user_list) == INSERT_LIMIT:
+                print("insert")
                 execute_values(
                 self.cursor,
                 f"INSERT INTO {self.schema_name}.user ({', '.join(column_names)}) VALUES %s",
@@ -47,10 +48,22 @@ class UploadUser(BaseTask):
                         dat = loaded_line["yelping_since"]
                     case other:
                         dat = loaded_line[col]
-                if col != "friends":
-                    processed_line.append(dat)
-            friends=loaded_line["friends"].split(", ")
+                processed_line.append(dat)
             user_list.append(tuple(processed_line))
+            user_id = loaded_line["user_id"]
+            friends = loaded_line["friends"]
+            friends = friends.split(", ")
+            friend_list = []
+            cols = ["user_id", "friend_id"]
+            for friend in friends:
+                friend_entry = (user_id, friend)
+                friend_list.append(friend_entry)
+            execute_values(
+                self.cursor,
+                f"INSERT INTO {self.schema_name}.friends ({', '.join(cols)}) VALUES %s",
+                friend_list)
+            friend_list.clear()
+
         f.close()
         if len(user_list) > 0:
             execute_values(

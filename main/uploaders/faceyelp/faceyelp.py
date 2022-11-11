@@ -16,10 +16,10 @@ class FaceYelpUploader(BaseUploader):
   def upload(self, schema_name):
     start_time = time.time()
 
-    InitSchema(self.conn, schema_name, self.sql_path, self.file_path).execute()
+    #InitSchema(self.conn, schema_name, self.sql_path, self.file_path).execute()
     BaseTable(self.conn, schema_name, self.sql_path, self.file_path).execute()
 
-    UploadBusiness(self.conn, schema_name, self.sql_path, self.file_path).execute()
+    #UploadBusiness(self.conn, schema_name, self.sql_path, self.file_path).execute()
     UploadUser(self.conn, schema_name, self.sql_path, self.file_path).execute()
 
     end_time = time.time()
