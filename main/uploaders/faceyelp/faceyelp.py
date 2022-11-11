@@ -3,6 +3,7 @@ from main.uploaders.faceyelp.subtasks.init_schema import InitSchema
 from main.uploaders.faceyelp.subtasks.base_table import BaseTable
 from main.uploaders.faceyelp.subtasks.upload_business import UploadBusiness
 from main.uploaders.faceyelp.subtasks.upload_users import UploadUser
+from main.uploaders.faceyelp.subtasks.upload_photos import UploadPhotos
 import time
 
 
@@ -20,7 +21,12 @@ class FaceYelpUploader(BaseUploader):
     BaseTable(self.conn, schema_name, self.sql_path, self.file_path).execute()
 
     #UploadBusiness(self.conn, schema_name, self.sql_path, self.file_path).execute()
+<<<<<<< HEAD
     UploadUser(self.conn, schema_name, self.sql_path, self.file_path).execute()
+=======
+    #UploadUser(self.conn, schema_name, self.sql_path, self.file_path).execute()
+    UploadPhotos(self.conn, schema_name, self.sql_path, self.file_path).execute()
+>>>>>>> cb81b27 (photos api)
 
     end_time = time.time()
 

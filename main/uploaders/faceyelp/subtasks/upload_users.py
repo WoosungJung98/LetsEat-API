@@ -13,7 +13,11 @@ class UploadUser(BaseTask):
         print("\n====================Start Uploading User====================\n")
         start_time = time.time()
 
+<<<<<<< HEAD
         INSERT_LIMIT = 5
+=======
+        INSERT_LIMIT = 10000
+>>>>>>> cb81b27 (photos api)
         column_names = ["user_id","user_name", "email", "profile_photo",
                             "password_digest","review_count","useful","funny",
                                 "cool","created_at", "updated_at"]
