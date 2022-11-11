@@ -1,0 +1,9 @@
+DROP TABLE IF EXISTS {schema_name}.friends;
+
+CREATE TABLE {schema_name}.friends (
+  user_id CHAR(22) PRIMARY KEY NOT NULL,
+  friend_id CHAR(22) NOT null
+);
+
+COMMENT ON COLUMN {schema_name}.friends.user_id IS '22 character unique string user id';
+COMMENT ON COLUMN {schema_name}.friends.friend_id IS '22 character unique string of user who is friends with the user id';
