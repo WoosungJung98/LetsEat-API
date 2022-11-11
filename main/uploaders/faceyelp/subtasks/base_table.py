@@ -11,9 +11,10 @@ class BaseTable(BaseTask):
   def execute(self):
     print("\n====================Start Making All Tables====================\n")
     tables_to_create = [
-        "business",
+        #"business",
         "review",
         "user",
+        "friends",
     ]
     for tablename in tables_to_create:
       start_time = time.time()
