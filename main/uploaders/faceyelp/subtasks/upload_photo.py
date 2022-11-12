@@ -18,7 +18,7 @@ class UploadPhoto(BaseTask):
         processed_line = []
         for line in f:
             if len(photo_list) == INSERT_LIMIT:
-                print("insert")
+                print(f"Insert {INSERT_LIMIT} photos")
                 execute_values(
                 self.cursor,
                 f"INSERT INTO {self.schema_name}.photo ({', '.join(column_names)}) VALUES %s ON CONFLICT DO NOTHING",
@@ -33,6 +33,7 @@ class UploadPhoto(BaseTask):
 
         f.close()
         if len(photo_list) > 0:
+            print(f"Insert {len(photo_list)} photos")
             execute_values(
                 self.cursor,
                 f"INSERT INTO {self.schema_name}.photo ({', '.join(column_names)}) VALUES %s ON CONFLICT DO NOTHING",

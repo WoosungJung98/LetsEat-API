@@ -64,6 +64,7 @@ class UploadUser(BaseTask):
                     friend_list.clear()
                 friend_list.append((user_id, friend))
             if len(friend_list) > 0:
+                print(f"Insert {len(friend_list)} friends for {user_id}")
                 execute_values(
                     self.cursor,
                     f"INSERT INTO {self.schema_name}.friend ({', '.join(cols)}) VALUES %s",
