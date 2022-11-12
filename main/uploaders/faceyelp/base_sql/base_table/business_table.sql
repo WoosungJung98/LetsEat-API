@@ -2,19 +2,19 @@ DROP TABLE IF EXISTS {schema_name}.business;
 
 CREATE TABLE {schema_name}.business (
   business_id CHAR(22) PRIMARY KEY NOT NULL,
-  business_name VARCHAR(255) NOT null,
-  address VARCHAR(255) NOT null,
-  city VARCHAR(255) NOT null,
+  business_name VARCHAR(255) NOT NULL,
+  address VARCHAR(255) NOT NULL,
+  city VARCHAR(255) NOT NULL,
   state CHAR(2),
   postal_code VARCHAR(255),
-  latitude double precision not null,
-  longitude double precision not null,
-  stars real not null,
-  review_count int not null,
-  is_open boolean not null,
-  attributes json,
-  categories varchar(255)[] not null,
-  hours json  
+  latitude DOUBLE PRECISION NOT NULL,
+  longitude DOUBLE PRECISION NOT NULL,
+  stars REAL NOT NULL,
+  review_count INT NOT NULL,
+  is_open BOOLEAN NOT NULL,
+  attributes JSON,
+  categories VARCHAR(255)[] NOT NULL,
+  hours JSON  
 );
 
 COMMENT ON COLUMN {schema_name}.business.business_id IS '22 character unique string business id';
