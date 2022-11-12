@@ -28,6 +28,7 @@ class UploadUser(BaseTask):
                     user_list)
                 user_list.clear()
             loaded_line = ujson.loads(line)
+            user_id = loaded_line["user_id"]
             processed_line = []
             for col in column_names:
                 match col:
@@ -36,9 +37,7 @@ class UploadUser(BaseTask):
                     case "created_at":
                         dat = loaded_line["yelping_since"] 
                     case "email":
-                        username = loaded_line["name"]
-                        "".join(username.split())
-                        dat = f"{username}@gmail.com"
+                        dat = f"{user_id}@gmail.com"
                     case "profile_photo":
                         dat = None
                     case "password_digest":
@@ -49,7 +48,6 @@ class UploadUser(BaseTask):
                         dat = loaded_line[col]
                 processed_line.append(dat)
             user_list.append(tuple(processed_line))
-            user_id = loaded_line["user_id"]
             friends = loaded_line["friends"]
             friends = friends.split(", ")
             cols = ["user_id", "friend_id"]
