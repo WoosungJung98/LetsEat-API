@@ -64,4 +64,4 @@ class ResponseRestaurantInfoSchema(Schema):
   business_info = fields.Nested(BusinessInfo, data_key="businessInfo")
 
 class ResponseRestaurantPhotoSchema(Schema):
-  business_photo = fields.List(fields.Nested(BusinessPhoto), data_key="businessPhoto")
+  business_photo_list = fields.List(fields.Nested(BusinessPhoto), data_key="businessPhotoList")

@@ -21,3 +21,9 @@ t_business = db.Table(
     db.Column("hours", db.JSON),
     schema=app.config["SCHEMA_FACEYELP"],
     extend_existing=True)
+
+
+def get_restaurant(business_id):
+  query = db.select(t_business)\
+    .where(t_business.c.business_id == business_id)
+  return db.session.execute(query).fetchone()

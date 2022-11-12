@@ -20,5 +20,4 @@ class ResponseError(Schema):
 ERROR_LIST_PAGE_INVALID = Error("u001", "Page must be larger than 0.", 400)
 ERROR_LIST_LENGTH_INVALID = Error("u002", "Length must be positive or 0.", 400)
 
-ERROR_SOMETHING = Error("u101", "Some Error!", 400)
-SUCCESS_SOMETHING = Error("u102", "Some Success!", 200)
+ERROR_BUSINESS_ID_NOT_EXISTS_PATH = Error("u101", "Specified Business ID Does Not Exist!", 404)

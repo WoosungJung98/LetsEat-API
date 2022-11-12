@@ -1,13 +1,12 @@
 from main import db
 from main.controllers.restaurant import restaurant_bp, API_CATEGORY
 from flask_apispec import marshal_with, doc
-from main.controllers.common.common import (
-    convert_query_to_response,
-    escape_wildcards
+from main.models.common.error import (
+    ResponseError,
+    ERROR_BUSINESS_ID_NOT_EXISTS_PATH
 )
-from main.models.common.error import ResponseError
 from main.models.restaurant.resources import ResponseRestaurantInfoSchema
-from main.models.business import t_business
+from main.models.business import get_restaurant
 
 @restaurant_bp.route("/<string:business_id>/info", methods=["GET"])
 @marshal_with(ResponseRestaurantInfoSchema, code=200)
@@ -18,10 +17,9 @@ from main.models.business import t_business
     description="Shows detailed info of Restaurant"
 )
 def restaurant_info(business_id):
-  restaurant_info_query=db.select(t_business).filter(t_business.c.business_id == business_id)
-  restaurant_info_result=db.session.execute(restaurant_info_query)
-  restaurant= restaurant_info_result.fetchone()
-  
+  restaurant = get_restaurant(business_id)
+  if not restaurant:
+    return ERROR_BUSINESS_ID_NOT_EXISTS_PATH.get_response()
   return {
     "business_info": {
       "business_id": restaurant.business_id,

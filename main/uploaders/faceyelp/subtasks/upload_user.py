@@ -1,6 +1,4 @@
 from main.uploaders.faceyelp.subtasks.base_task import BaseTask
-from main.uploaders.common.query import load_sql
-import os
 import time
 import ujson
 from psycopg2.extras import execute_values
@@ -13,11 +11,8 @@ class UploadUser(BaseTask):
         print("\n====================Start Uploading User====================\n")
         start_time = time.time()
 
-<<<<<<< HEAD
-        INSERT_LIMIT = 5
-=======
-        INSERT_LIMIT = 10000
->>>>>>> cb81b27 (photos api)
+        INSERT_LIMIT_USER = 1000
+        INSERT_LIMIT_FRIEND = 10000
         column_names = ["user_id","user_name", "email", "profile_photo",
                             "password_digest","review_count","useful","funny",
                                 "cool","created_at", "updated_at"]
@@ -25,12 +20,12 @@ class UploadUser(BaseTask):
         user_list = []
         processed_line = []
         for line in f:
-            if len(user_list) == INSERT_LIMIT:
-                print("insert")
+            if len(user_list) == INSERT_LIMIT_USER:
+                print(f"Insert {INSERT_LIMIT_USER} users")
                 execute_values(
-                self.cursor,
-                f"INSERT INTO {self.schema_name}.user ({', '.join(column_names)}) VALUES %s",
-                user_list)
+                    self.cursor,
+                    f"INSERT INTO {self.schema_name}.user ({', '.join(column_names)}) VALUES %s",
+                    user_list)
                 user_list.clear()
             loaded_line = ujson.loads(line)
             processed_line = []
@@ -57,17 +52,22 @@ class UploadUser(BaseTask):
             user_id = loaded_line["user_id"]
             friends = loaded_line["friends"]
             friends = friends.split(", ")
-            friend_list = []
             cols = ["user_id", "friend_id"]
+            friend_list = []
             for friend in friends:
-                friend_entry = (user_id, friend)
-                friend_list.append(friend_entry)
-            execute_values(
-                self.cursor,
-                f"INSERT INTO {self.schema_name}.friends ({', '.join(cols)}) VALUES %s",
-                friend_list)
-            friend_list.clear()
-
+                if len(friend_list) == INSERT_LIMIT_FRIEND:
+                    print(f"Insert {INSERT_LIMIT_FRIEND} friends for {user_id}")
+                    execute_values(
+                        self.cursor,
+                        f"INSERT INTO {self.schema_name}.friend ({', '.join(cols)}) VALUES %s",
+                        friend_list)
+                    friend_list.clear()
+                friend_list.append((user_id, friend))
+            if len(friend_list) > 0:
+                execute_values(
+                    self.cursor,
+                    f"INSERT INTO {self.schema_name}.friend ({', '.join(cols)}) VALUES %s",
+                    friend_list)
         f.close()
         if len(user_list) > 0:
             execute_values(
@@ -77,4 +77,4 @@ class UploadUser(BaseTask):
 
         end_time = time.time()
         print(f"User Uploading time: {end_time-start_time:.2f}secs\n")
-        print("====================Finished Uploading Users====================\n")
+        print("====================Finished Uploading User====================\n")

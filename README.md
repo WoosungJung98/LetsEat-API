@@ -33,5 +33,10 @@ http://[ip]:[port]/docs
 
 - Creates tables and uploads Yelp JSON Data in PostgreSQL database
 ```
+# Make sure all json files are under main/uploaders/faceyelp/files/json_datasets/
+# For asynchronous execution (preferred):
+./bin/start_celery_uploader_worker.sh
 python main/uploaders/run_faceyelp.py faceyelp
+# For direct execution:
+python main/uploaders/run_faceyelp.py faceyelp --no-celery
 ```
