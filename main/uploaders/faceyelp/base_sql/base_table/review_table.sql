@@ -2,15 +2,15 @@ DROP TABLE IF EXISTS {schema_name}.review;
 
 CREATE TABLE {schema_name}.review (
   review_id CHAR(22) PRIMARY KEY NOT NULL,
-  user_id CHAR(22) NOT null,
-  business_id CHAR(22) NOT null,
-  stars int NOT null,
+  user_id CHAR(22) NOT NULL,
+  business_id CHAR(22) NOT NULL,
+  stars INT NOT NULL,
   body VARCHAR(255),
-  useful int not null,
-  funny int not null,
-  cool int not null,
-  created_at timestamp not null,
-  updated_at timestamp not null
+  useful INT NOT NULL,
+  funny INT NOT NULL,
+  cool INT NOT NULL,
+  created_at TIMESTAMP NOT NULL,
+  updated_at TIMESTAMP NOT NULL
 );
 
 COMMENT ON COLUMN {schema_name}.review.review_id IS '22 character unique review id';

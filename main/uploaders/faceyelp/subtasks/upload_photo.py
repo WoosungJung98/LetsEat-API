@@ -1,4 +1,6 @@
 from main.uploaders.faceyelp.subtasks.base_task import BaseTask
+from main.uploaders.common.query import load_sql
+import os
 import time
 import ujson
 from psycopg2.extras import execute_values
@@ -42,3 +44,12 @@ class UploadPhoto(BaseTask):
         end_time = time.time()
         print(f"Photo Uploading time: {end_time-start_time:.2f}secs\n")
         print("====================Finished Uploading Photo====================\n")
+
+        print("\n====================Start Indexing Photo====================\n")
+        start_time = time.time()
+        query = load_sql(os.path.join(self.sql_path, "add_index", "index_photo.sql"),
+                        schema_name=self.schema_name)
+        self.cursor.execute(query)
+        end_time = time.time()
+        print(f"Photo Indexing time: {end_time-start_time:.2f}secs\n")
+        print("\n====================Finished Indexing Photo====================\n")
