@@ -54,15 +54,16 @@ class UploadUser(BaseTask):
             friend_list = []
             for friend in friends:
                 if len(friend_list) == INSERT_LIMIT_FRIEND:
-                    print(f"Insert {INSERT_LIMIT_FRIEND} friends for {user_id}")
+                    # print(f"Insert {INSERT_LIMIT_FRIEND} friends for {user_id}")
                     execute_values(
                         self.cursor,
                         f"INSERT INTO {self.schema_name}.friend ({', '.join(cols)}) VALUES %s",
                         friend_list)
                     friend_list.clear()
-                friend_list.append((user_id, friend))
+                if len(friend) == 22:
+                    friend_list.append((user_id, friend))
             if len(friend_list) > 0:
-                print(f"Insert {len(friend_list)} friends for {user_id}")
+                # print(f"Insert {len(friend_list)} friends for {user_id}")
                 execute_values(
                     self.cursor,
                     f"INSERT INTO {self.schema_name}.friend ({', '.join(cols)}) VALUES %s",
