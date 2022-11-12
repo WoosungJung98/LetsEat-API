@@ -7,3 +7,4 @@ git fetch origin
 git pull
 pkill -9 -ef "gunicorn"
 ./bin/run_server.sh 8000
+./bin/start_celery_uploader_worker.sh

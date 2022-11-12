@@ -55,6 +55,13 @@ class BusinessInfo(Schema):
   categories = fields.List(fields.Str())
   hours = fields.Nested(BusinessHour)
 
+class BusinessPhoto(Schema):
+  photo_id = fields.Str()
+  caption = fields.Str()
+  label = fields.Str()
 
 class ResponseRestaurantInfoSchema(Schema):
   business_info = fields.Nested(BusinessInfo, data_key="businessInfo")
+
+class ResponseRestaurantPhotoSchema(Schema):
+  business_photo_list = fields.List(fields.Nested(BusinessPhoto), data_key="businessPhotoList")

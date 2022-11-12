@@ -12,7 +12,7 @@ from flask_apispec.extension import FlaskApiSpec
 import warnings
 
 
-default_cdmdir = f"{os.getcwd()}/main/faceyelpapi.cfg"
+default_faceyelpdir = f"{os.getcwd()}/main/faceyelpapi.cfg"
 
 docs = FlaskApiSpec()
 db = SQLAlchemy()
@@ -20,7 +20,7 @@ cors = CORS()
 api = Api()
 
 
-def read_config(config_filename=default_cdmdir):
+def read_config(config_filename=default_faceyelpdir):
   app = Flask(__name__)
   app.config.from_pyfile(config_filename)
 
@@ -34,7 +34,7 @@ class DecimalSerializeEncoder(flask.json.JSONEncoder):
     return super(DecimalSerializeEncoder, self).default(obj)
 
 
-def create_app(config_filename=default_cdmdir):
+def create_app(config_filename=default_faceyelpdir):
   app = Flask(__name__)
   app.json_encoder = DecimalSerializeEncoder
 
