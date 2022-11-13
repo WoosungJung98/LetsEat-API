@@ -5,7 +5,7 @@ from main.models.common.error import (
     ResponseError,
     ERROR_BUSINESS_ID_NOT_EXISTS_PATH
 )
-from main.models.restaurant.resources import ResponseRestaurantInfoSchema
+from main.models.schema.restaurant import ResponseRestaurantInfoSchema
 from main.models.business import get_restaurant
 
 @restaurant_bp.route("/<string:business_id>/info", methods=["GET"])
@@ -42,6 +42,6 @@ def restaurant_info(business_id):
         "fri" : restaurant.hours.get('Friday', "Closed"),
         "sat" : restaurant.hours.get('Saturday', "Closed"),
         "sun" : restaurant.hours.get('Sunday', "Closed")
-      }
+      } if restaurant.hours else {},
     }
   }
