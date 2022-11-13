@@ -5,7 +5,7 @@ CREATE TABLE {schema_name}.user (
   user_name VARCHAR(255) NOT NULL,
   email VARCHAR(255) UNIQUE NOT NULL,
   profile_photo CHAR(22),
-  password_digest VARCHAR(255),
+  password_digest BYTEA,
   review_count INT NOT NULL,
   useful INT NOT NULL,
   funny INT NOT NULL,

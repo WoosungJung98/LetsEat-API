@@ -5,7 +5,7 @@ from main.models.common.error import (
     ResponseError,
     ERROR_BUSINESS_ID_NOT_EXISTS_PATH
 )
-from main.models.restaurant.resources import ResponseRestaurantPhotoSchema
+from main.models.schema.restaurant import ResponseRestaurantPhotoSchema
 from main.models.photo import t_photo
 from main.models.business import get_restaurant
 
