@@ -1,5 +1,6 @@
 from flask import current_app as app
 from main import db
+from sqlalchemy.dialects.postgresql import insert
 
 
 t_user = db.Table(
@@ -29,3 +30,14 @@ def get_user_by_email(email):
   query = db.select(t_user)\
     .where(t_user.c.email == email)
   return db.session.execute(query).fetchone()
+
+
+def upsert_user(upsert_dict):
+  insert_stmt = insert(t_user).values(upsert_dict)
+
+  do_nothing_stmt = insert_stmt.on_conflict_do_nothing(
+      index_elements=[t_user.c.user_id, t_user.c.email]
+  ).returning(t_user.c.user_id)
+
+  db.session.execute(do_nothing_stmt)
+  db.session.commit()
