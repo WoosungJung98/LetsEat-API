@@ -2,17 +2,23 @@ from flask_apispec import use_kwargs, marshal_with, doc
 from sqlalchemy import func
 from main.controllers.user import user_bp, API_CATEGORY
 from main.controllers.common.common import gen_random_uid
-from main.models.schema.user import RequestCreateAccountSchema
+from main.models.schema.user import (
+  RequestCreateAccountSchema,
+  RequestVerifyEmailSchema
+)
 from main.models.user import (
     t_user,
-    upsert_user
+    upsert_user,
+    get_user_by_email
 )
 from main.models.common.error import (
     ResponseError,
     ERROR_PASSWORD_CONFIRMATION,
     ERROR_EMAIL_PATTERN_INVALID,
     ERROR_FAILED_ACCOUNT_CREATION,
-    SUCCESS_ACCOUNT_CREATION
+    SUCCESS_ACCOUNT_CREATION,
+    ERROR_EMAIL_INVALID,
+    SUCCESS_EMAIL_VALID
 )
 import re
 import bcrypt
@@ -54,3 +60,16 @@ def user_create(user_name, email, password, password_confirm):
     return ERROR_FAILED_ACCOUNT_CREATION.get_response()
 
   return SUCCESS_ACCOUNT_CREATION.get_response()
+
+
+@user_bp.route("/verify-email", methods=["GET"])
+@use_kwargs(RequestVerifyEmailSchema, location="query")
+@marshal_with(ResponseError)
+@doc(tags=[API_CATEGORY],
+     summary="Verify User Email",
+     description="Verify email uniqueness for new user account")
+def user_verify_email(email):
+  user = get_user_by_email(email)
+  if user:
+    return ERROR_EMAIL_INVALID.get_response()
+  return SUCCESS_EMAIL_VALID.get_response()
