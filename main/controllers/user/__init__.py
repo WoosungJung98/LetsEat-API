@@ -13,4 +13,7 @@ from main.controllers.user.login import (
     user_change_password,
 )
 from main.controllers.user.info import user_info
-from main.controllers.user.create import user_create
+from main.controllers.user.create import (
+    user_create,
+    user_verify_email
+)

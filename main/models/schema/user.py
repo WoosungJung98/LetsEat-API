@@ -26,6 +26,11 @@ class RequestCreateAccountSchema(Schema):
                                 validate = validate.Length(min = 8, max = 255))
 
 
+class RequestVerifyEmailSchema(Schema):
+  email = fields.Str(required=True,
+                     validate = validate.Length(min = 3, max = 255))
+
+
 # Responses
 class ResponseAccessTokenSchema(Schema):
   access_token = fields.Str(data_key="accessToken")
