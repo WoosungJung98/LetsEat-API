@@ -1,15 +1,29 @@
-from marshmallow import Schema, fields
+from marshmallow import Schema, fields, validate
 
 
 # Requests
 class RequestLoginSchema(Schema):
   email = fields.Str(required=True)
-  password = fields.Str(required=True)
+  password = fields.Str(required=True,
+                        validate = validate.Length(min = 8, max = 255))
 
 
 class RequestChangePassword(Schema):
-  old_password = fields.Str(required=True)
-  new_password = fields.Str(required=True)
+  old_password = fields.Str(required=True,
+                            validate = validate.Length(min = 8, max = 255))
+  new_password = fields.Str(required=True,
+                            validate = validate.Length(min = 8, max = 255))
+
+
+class RequestCreateAccountSchema(Schema):
+  user_name = fields.Str(required=True,
+                         validate = validate.Length(min = 3, max = 255))
+  email = fields.Str(required=True,
+                     validate = validate.Length(min = 3, max = 255))
+  password = fields.Str(required=True,
+                        validate = validate.Length(min = 8, max = 255))
+  password_confirm = fields.Str(required=True,
+                                validate = validate.Length(min = 8, max = 255))
 
 
 # Responses

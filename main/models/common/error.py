@@ -25,3 +25,7 @@ ERROR_BUSINESS_ID_NOT_EXISTS_PATH = Error("u101", "Specified Business ID Does No
 ERROR_INVALID_CREDENTIALS = Error("u201", "Invalid username or password!", 401)
 SUCCESS_LOGOUT = Error("u202", "Log out success.", 200)
 SUCCESS_CHANGE_PASSWORD = Error("u203", "Change password success.", 200)
+ERROR_PASSWORD_CONFIRMATION = Error("u204", "Password confirmation failure!", 422)
+ERROR_EMAIL_PATTERN_INVALID = Error("u205", "Email is formatted incorrectly!", 422)
+ERROR_FAILED_ACCOUNT_CREATION = Error("u206", "Account creation failed!", 422)
+SUCCESS_ACCOUNT_CREATION = Error("u207", "Account successfully created!", 200)
