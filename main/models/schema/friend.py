@@ -3,7 +3,8 @@ from marshmallow import Schema, fields, validate
 
 # Requests
 class RequestFriendListSchema(Schema):
-  friend_name = fields.Str(validate = validate.Length(min = 3, max = 255))
+  friend_name = fields.Str(missing=None,
+                           validate = validate.Length(min = 3, max = 255))
 
 # Responses
 class FriendList(Schema):

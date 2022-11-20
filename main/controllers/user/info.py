@@ -5,7 +5,7 @@ from main.controllers.user import user_bp, API_CATEGORY, authorization_header
 from main.controllers.common.jwt import check_jwt_user
 from main.models.common.error import ResponseError
 from main.models.user import t_user
-from main.models.schema.user import ResponseUserInfo
+from main.models.schema.user import ResponseUserInfoSchema
 from main import db
 
 
@@ -13,7 +13,7 @@ from main import db
 @jwt_required()
 @check_jwt_user
 @marshal_with(ResponseError)
-@marshal_with(ResponseUserInfo, code=200)
+@marshal_with(ResponseUserInfoSchema, code=200)
 @doc(tags=[API_CATEGORY],
      summary="Get User Info",
      description="Returns the detailed information for the user",

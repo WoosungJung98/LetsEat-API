@@ -6,7 +6,7 @@ from main.models.schema.user import (
     RequestLoginSchema,
     ResponseLoginSchema,
     ResponseAccessTokenSchema,
-    RequestChangePassword
+    RequestChangePasswordSchema
 )
 from main.models.account import (
     Account,
@@ -72,7 +72,7 @@ def user_logout():
 @user_bp.route("/password", methods=["POST"])
 @jwt_required()
 @check_jwt_user
-@use_kwargs(RequestChangePassword)
+@use_kwargs(RequestChangePasswordSchema)
 @marshal_with(ResponseError)
 @doc(tags=[API_CATEGORY],
      summary="change password",

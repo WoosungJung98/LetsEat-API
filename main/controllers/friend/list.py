@@ -26,7 +26,7 @@ FRIEND_LIST_LENGTH = 30
      summary="Get Friend List",
      description="Returns the list of friends for the user",
      params=authorization_header)
-def friend_list(user, friend_name=None):
+def friend_list(user, friend_name):
   query = db.select(t_friend.c.friend_id, t_user.c.user_name, t_user.c.profile_photo)\
             .join(t_user, t_friend.c.friend_id == t_user.c.user_id)\
             .where(t_friend.c.user_id == user.user_id)
