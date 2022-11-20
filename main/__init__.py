@@ -68,14 +68,14 @@ def create_app(config_filename=default_faceyelpdir):
   with app.app_context():
     # Blueprints
     from main.controllers.user import user_bp
-    # from main.controllers.friend import friend_bp
+    from main.controllers.friend import friend_bp
     # from main.controllers.meal import meal_bp
     from main.controllers.restaurant import restaurant_bp
     # from main.controllers.review import review_bp
 
     blueprints = [
         user_bp,
-        # friend_bp,
+        friend_bp,
         # meal_bp,
         restaurant_bp,
         # review_bp,
