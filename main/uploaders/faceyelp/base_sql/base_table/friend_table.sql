@@ -3,6 +3,7 @@ DROP TABLE IF EXISTS {schema_name}.friend;
 CREATE TABLE {schema_name}.friend (
   user_id CHAR(22) NOT NULL,
   friend_id CHAR(22) NOT NULL,
+  viewed_at TIMESTAMP,
   PRIMARY KEY (user_id, friend_id)
 );
 
