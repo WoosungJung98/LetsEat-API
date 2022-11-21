@@ -10,6 +10,7 @@ from main.models.schema.friend import (
     ResponseFriendMutualSchema
 )
 from main import db
+from sqlalchemy import func
 
 
 @friend_bp.route("/mutual", methods=["GET"])
@@ -30,5 +31,12 @@ def friend_mutual(user, friend_id):
                     .filter(t_friend.c.user_id == friend_id)\
                     .filter(t_friend.c.friend_id == user.user_id)
   result = friend_query.union_all(reverse_query).count()
+
+  update_viewed_at_query = db.update(t_friend)\
+    .where(t_friend.c.user_id == user.user_id)\
+    .where(t_friend.c.friend_id == friend_id)\
+    .values(viewed_at=func.now())
+  db.session.execute(update_viewed_at_query)
+  db.session.commit()
 
   return {"is_mutual": result == 2}
