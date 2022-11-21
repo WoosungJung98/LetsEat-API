@@ -1,3 +1,7 @@
+from redis import Redis
+from flask import current_app as app
+
+
 authorization_header = {
     "Authorization": {
         "description":
@@ -10,3 +14,5 @@ authorization_header = {
         True
     }
 }
+
+FACEYELP_API_CACHE = Redis.from_url(app.config["FACEYELP_API_REDIS_CACHE"], decode_responses=True)
