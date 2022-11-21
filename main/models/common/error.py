@@ -31,3 +31,7 @@ ERROR_FAILED_ACCOUNT_CREATION = Error("u206", "Account creation failed!", 409)
 SUCCESS_ACCOUNT_CREATION = Error("u207", "Account successfully created!", 200)
 ERROR_EMAIL_INVALID = Error("u208", "Given email address is invalid or already exists in database!", 409)
 SUCCESS_EMAIL_VALID = Error("u209", "Given email address is valid and usable", 200)
+
+ERROR_NONEXISTENT_FRIEND = Error("u301", "Given friend is not found in database!", 404)
+ERROR_FAILED_FRIEND_ADD = Error("u302", "Given friendship already exists in database!", 409)
+SUCCESS_ADD_FRIEND = Error("u303", "Successfully added friend to user's friend list.", 200)

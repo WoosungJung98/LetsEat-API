@@ -12,6 +12,11 @@ class RequestFriendMutualSchema(Schema):
                          validate = validate.Length(equal = 22))
 
 
+class RequestFriendAddSchema(Schema):
+  friend_id = fields.Str(required=True,
+                         validate = validate.Length(equal = 22))
+
+
 # Responses
 class FriendList(Schema):
   friend_id = fields.Str(data_key="friendID")

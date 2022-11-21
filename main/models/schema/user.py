@@ -66,6 +66,7 @@ class ResponseUserInfoSchema(Schema):
 
 
 class UserListItem(Schema):
+  user_id = fields.Str(data_key="userID", required=True)
   user_name = fields.Str(data_key="userName", required=True)
   email = fields.Str(required=True)
   profile_photo = fields.Str(data_key="profilePhoto", required=True, allow_none=True)

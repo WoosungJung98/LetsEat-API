@@ -28,6 +28,7 @@ from sqlalchemy import func
 @check_pagination_request
 def user_list(page, length, user_name, order_column, order_desc):
   query = db.session.query(
+    t_user.c.user_id,
     t_user.c.user_name,
     t_user.c.email,
     t_user.c.profile_photo,
@@ -50,7 +51,7 @@ def user_list(page, length, user_name, order_column, order_desc):
                  .limit(length)
 
   result = query.all()
-  attrs = ("user_name", "email", "profile_photo", "review_count", "created_at")
+  attrs = ("user_id", "user_name", "email", "profile_photo", "review_count", "created_at")
 
   return {
       "user": {
