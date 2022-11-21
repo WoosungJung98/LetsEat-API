@@ -3,7 +3,8 @@ from flask_apispec import use_kwargs, marshal_with, doc
 from main.controllers.user import user_bp, API_CATEGORY
 from main.controllers.common.common import (
     get_page_offset,
-    check_pagination_request
+    check_pagination_request,
+    convert_query_to_response
 )
 from main.models.common.error import ResponseError
 from main.models.schema.user import (
@@ -26,16 +27,16 @@ from sqlalchemy import func
 )
 @check_pagination_request
 def user_list(page, length, user_name, order_column, order_desc):
-  query = db.select(
+  query = db.session.query(
     t_user.c.user_name,
     t_user.c.email,
     t_user.c.profile_photo,
     t_user.c.review_count,
     t_user.c.created_at)
   if user_name:
-    query = query.where(func.lower(t_user.c.user_name).like(f"%{user_name.strip().lower()}%"))
+    query = query.filter(func.lower(t_user.c.user_name).like(f"%{user_name.strip().lower()}%"))
 
-  total_length = db.session.query(query.subquery()).count()
+  total_length = query.count()
 
   if order_column == "user_name":
     order = t_user.c.user_name
@@ -48,16 +49,12 @@ def user_list(page, length, user_name, order_column, order_desc):
     query = query.offset(page_offset)\
                  .limit(length)
 
-  result = db.session.execute(query)
+  result = query.all()
+  attrs = ("user_name", "email", "profile_photo", "review_count", "created_at")
+
   return {
       "user": {
-          "list": [{
-            "user_name": user.user_name,
-            "email": user.email,
-            "profile_photo": user.profile_photo,
-            "review_count": user.review_count,
-            "created_at": user.created_at,
-          } for user in result],
+          "list": convert_query_to_response(attrs, result),
           "page": page,
           "total_length": total_length
       }
