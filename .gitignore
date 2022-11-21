@@ -20,3 +20,6 @@ faceyelpapi.cfg
 .python-version
 
 .DS_Store
+
+# redis dumpfile
+dump.rdb

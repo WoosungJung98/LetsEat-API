@@ -1,6 +1,11 @@
+from flask import current_app as app
 from flask_apispec import use_kwargs, marshal_with, doc
 
-from main.controllers.user import user_bp, API_CATEGORY
+from main.controllers.user import (
+    user_bp,
+    API_CATEGORY,
+    FACEYELP_API_CACHE
+)
 from main.controllers.common.common import (
     get_page_offset,
     check_pagination_request,
@@ -36,8 +41,15 @@ def user_list(page, length, user_name, order_column, order_desc):
     t_user.c.created_at)
   if user_name:
     query = query.filter(func.lower(t_user.c.user_name).like(f"%{user_name.strip().lower()}%"))
-
-  total_length = query.count()
+    cache_key = f"user_total_counts_{user_name.strip().lower()}"
+  else:
+    cache_key = "user_total_counts"
+  
+  if not FACEYELP_API_CACHE.exists(cache_key):
+    FACEYELP_API_CACHE.setex(cache_key,
+                             app.config["USER_TOTAL_LENGTH_CACHE_EXPIRE_TIME"],
+                             query.count())
+  total_length = FACEYELP_API_CACHE.get(cache_key)
 
   if order_column == "user_name":
     order = t_user.c.user_name
