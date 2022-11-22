@@ -8,7 +8,9 @@ from main.models.schema.user import (
 )
 from main.models.user import (
     t_user,
+    t_user_name_cnt_map,
     upsert_user,
+    upsert_user_name_cnt_map,
     get_user_by_email
 )
 from main.models.common.error import (
@@ -56,6 +58,10 @@ def user_create(user_name, email, password, password_confirm):
         t_user.c.updated_at: func.now(),
     }
     upsert_user(upsert_dict)
+    upsert_user_name_cnt_map({
+        t_user_name_cnt_map.c.user_name: user_name.strip(),
+        t_user_name_cnt_map.c.cnt: 1
+    })
   except:
     return ERROR_FAILED_ACCOUNT_CREATION.get_response()
 

@@ -4,7 +4,7 @@ user_bp = Blueprint("user", __name__, url_prefix="/user")
 
 API_CATEGORY = "User"
 
-from main.controllers import authorization_header, FACEYELP_API_CACHE
+from main.controllers import authorization_header
 
 from main.controllers.user.login import (
     user_login,

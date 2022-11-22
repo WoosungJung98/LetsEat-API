@@ -20,6 +20,14 @@ t_user = db.Table(
     extend_existing=True)
 
 
+t_user_name_cnt_map = db.Table(
+    "user_name_cnt_map",
+    db.Column("user_name", db.String(255), primary_key=True),
+    db.Column("cnt", db.Integer, nullable=False),
+    schema=app.config["SCHEMA_FACEYELP"],
+    extend_existing=True)
+
+
 def get_user(user_id):
   query = db.select(t_user)\
     .where(t_user.c.user_id == user_id)
@@ -40,4 +48,19 @@ def upsert_user(upsert_dict):
   ).returning(t_user.c.user_id)
 
   db.session.execute(do_nothing_stmt)
+  db.session.commit()
+
+
+def upsert_user_name_cnt_map(upsert_dict):
+  insert_stmt = insert(t_user_name_cnt_map).values(upsert_dict)
+  excl_col_dict = {
+      "cnt": t_user_name_cnt_map.c.cnt + 1
+  }
+  upsert_col_names = [key.name for key in upsert_dict]
+
+  do_update_stmt = insert_stmt.on_conflict_do_update(
+      index_elements=[t_user_name_cnt_map.c.user_name],
+      set_={key: excl_col_dict[key] for key in excl_col_dict if key in upsert_col_names}
+  )
+  db.session.execute(do_update_stmt)
   db.session.commit()

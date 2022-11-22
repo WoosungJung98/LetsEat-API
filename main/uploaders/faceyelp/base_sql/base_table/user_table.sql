@@ -15,7 +15,7 @@ CREATE TABLE {schema_name}.user (
 );
 
 COMMENT ON COLUMN {schema_name}.user.user_id IS '22 character unique user id, maps to the user in user.json';
-COMMENT ON COLUMN {schema_name}.user.user_name IS 'the users first name';
+COMMENT ON COLUMN {schema_name}.user.user_name IS 'the users first and last name';
 COMMENT ON COLUMN {schema_name}.user.email IS 'the users email address, must be unique';
 COMMENT ON COLUMN {schema_name}.user.profile_photo IS 'the users profile photo unique ID';
 COMMENT ON COLUMN {schema_name}.user.password_digest IS 'the users hashed password';

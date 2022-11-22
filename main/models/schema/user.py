@@ -39,11 +39,6 @@ class RequestVerifyEmailSchema(Schema):
 class RequestUserListSchema(RequestPagination):
   user_name = fields.Str(missing=None,
                          validate = validate.Length(min = 3, max = 255))
-  order_column = fields.Str(
-      missing="user_name",
-      validate=validate.OneOf(["user_name"])
-  )
-  order_desc = fields.Int(missing=1, validate=validate.OneOf([0, 1]))
 
 
 # Responses

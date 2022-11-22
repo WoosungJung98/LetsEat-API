@@ -3,8 +3,7 @@ from flask_apispec import use_kwargs, marshal_with, doc
 
 from main.controllers.user import (
     user_bp,
-    API_CATEGORY,
-    FACEYELP_API_CACHE
+    API_CATEGORY
 )
 from main.controllers.common.common import (
     get_page_offset,
@@ -16,7 +15,7 @@ from main.models.schema.user import (
     RequestUserListSchema,
     ResponseUserListSchema
 )
-from main.models.user import t_user
+from main.models.user import t_user, t_user_name_cnt_map
 from main import db
 from sqlalchemy import func
 
@@ -31,7 +30,7 @@ from sqlalchemy import func
     description="Returns the list of users (searchable by name)"
 )
 @check_pagination_request
-def user_list(page, length, user_name, order_column, order_desc):
+def user_list(page, length, user_name):
   query = db.session.query(
     t_user.c.user_id,
     t_user.c.user_name,
@@ -39,23 +38,14 @@ def user_list(page, length, user_name, order_column, order_desc):
     t_user.c.profile_photo,
     t_user.c.review_count,
     t_user.c.created_at)
+  total_length_query = db.session\
+    .query(func.sum(t_user_name_cnt_map.c.cnt))
   if user_name:
     query = query.filter(func.lower(t_user.c.user_name).like(f"%{user_name.strip().lower()}%"))
-    cache_key = f"user_total_counts_{user_name.strip().lower()}"
-  else:
-    cache_key = "user_total_counts"
+    total_length_query = total_length_query\
+      .filter(func.lower(t_user_name_cnt_map.c.user_name).like(f"%{user_name.strip().lower()}%"))
   
-  if not FACEYELP_API_CACHE.exists(cache_key):
-    FACEYELP_API_CACHE.setex(cache_key,
-                             app.config["USER_TOTAL_LENGTH_CACHE_EXPIRE_TIME"],
-                             query.count())
-  total_length = FACEYELP_API_CACHE.get(cache_key)
-
-  if order_column == "user_name":
-    order = t_user.c.user_name
-  order = order.desc() if order_desc else order
-  
-  query = query.order_by(order)
+  query = query.order_by(t_user.c.user_id)
 
   if length > 0:
     page_offset = get_page_offset(page, length)
@@ -64,11 +54,10 @@ def user_list(page, length, user_name, order_column, order_desc):
 
   result = query.all()
   attrs = ("user_id", "user_name", "email", "profile_photo", "review_count", "created_at")
-
   return {
       "user": {
           "list": convert_query_to_response(attrs, result),
           "page": page,
-          "total_length": total_length
+          "total_length": total_length_query.scalar()
       }
   }
