@@ -50,14 +50,19 @@ class ResponseLoginSchema(ResponseAccessTokenSchema):
   refresh_token = fields.Str(data_key="refreshToken")
 
 
-class ResponseUserInfoSchema(Schema):
+class UserInfo(Schema):
   user_name = fields.Str(data_key="userName")
   email = fields.Str()
   profile_photo = fields.Str(data_key="profilePhoto")
+  avatar_num = fields.Int(data_key="avatarNum")
   review_count = fields.Str(data_key="reviewCount")
   useful = fields.Int()
   funny = fields.Int()
   cool = fields.Int()
+
+
+class ResponseUserInfoSchema(Schema):
+  user_info = fields.Nested(UserInfo, data_key="userInfo")
 
 
 class UserListItem(Schema):
@@ -65,6 +70,7 @@ class UserListItem(Schema):
   user_name = fields.Str(data_key="userName", required=True)
   email = fields.Str(required=True)
   profile_photo = fields.Str(data_key="profilePhoto", required=True, allow_none=True)
+  avatar_num = fields.Int(data_key="avatarNum", required=True, allow_none=True)
   review_count = fields.Int(data_key="reviewCount", required=True)
   created_at = DateTime(data_key="createdAt", required=True)
 

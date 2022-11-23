@@ -9,6 +9,7 @@ t_user = db.Table(
     db.Column("user_name", db.String(255), nullable=False),
     db.Column("email", db.String(255), unique=True, nullable=False),
     db.Column("profile_photo", db.String(22)),
+    db.Column("avatar_num", db.Integer),
     db.Column("password_digest", db.LargeBinary),
     db.Column("review_count", db.Integer, nullable=False),
     db.Column("useful", db.Integer, nullable=False),
