@@ -36,6 +36,7 @@ def user_list(page, length, user_name):
     t_user.c.user_name,
     t_user.c.email,
     t_user.c.profile_photo,
+    t_user.c.avatar_num,
     t_user.c.review_count,
     t_user.c.created_at)
   total_length_query = db.session\
@@ -53,7 +54,7 @@ def user_list(page, length, user_name):
                  .limit(length)
 
   result = query.all()
-  attrs = ("user_id", "user_name", "email", "profile_photo", "review_count", "created_at")
+  attrs = ("user_id", "user_name", "email", "profile_photo", "avatar_num", "review_count", "created_at")
   return {
       "user": {
           "list": convert_query_to_response(attrs, result),

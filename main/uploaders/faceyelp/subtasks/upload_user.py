@@ -4,6 +4,7 @@ import os
 import time
 import ujson
 from psycopg2.extras import execute_values
+import random
 
 class UploadUser(BaseTask):
     def __init__(self, conn, schema_name, sql_path, file_path):
@@ -15,9 +16,9 @@ class UploadUser(BaseTask):
 
         INSERT_LIMIT_USER = 1000
         INSERT_LIMIT_FRIEND = 10000
-        column_names = ["user_id","user_name", "email", "profile_photo",
-                            "password_digest","review_count","useful","funny",
-                                "cool","created_at", "updated_at"]
+        column_names = ["user_id","user_name","email","profile_photo","avatar_num",
+                        "password_digest","review_count","useful","funny","cool",
+                        "created_at","updated_at"]
         f = open(f"{self.file_path}/json_datasets/yelp_academic_dataset_user.json", "r")
         user_list = []
         processed_line = []
@@ -42,6 +43,8 @@ class UploadUser(BaseTask):
                         dat = f"{user_id}@gmail.com"
                     case "profile_photo":
                         dat = None
+                    case "avatar_num":
+                        dat = random.randint(1, 24)
                     case "password_digest":
                         dat = None
                     case "updated_at":

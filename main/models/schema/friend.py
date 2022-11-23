@@ -22,6 +22,7 @@ class FriendList(Schema):
   friend_id = fields.Str(data_key="friendID")
   user_name = fields.Str(data_key="userName")
   profile_photo = fields.Str(data_key="profilePhoto")
+  avatar_num = fields.Str(data_key="avatarNum")
 
 
 class ResponseFriendListSchema(Schema):

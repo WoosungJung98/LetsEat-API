@@ -20,11 +20,14 @@ from main import db
      params=authorization_header)
 def user_info(user):
   return {
+    "user_info": {
       "user_name": user.user_name,
       "email": user.email,
       "profile_photo": user.profile_photo,
+      "avatar_num": user.avatar_num,
       "review_count": user.review_count,
       "useful": user.useful,
       "funny": user.funny,
       "cool": user.cool
+    }
   }
