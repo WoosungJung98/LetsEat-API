@@ -29,8 +29,8 @@ ERROR_PASSWORD_CONFIRMATION = Error("u204", "Password confirmation failure!", 42
 ERROR_EMAIL_PATTERN_INVALID = Error("u205", "Email is formatted incorrectly!", 422)
 ERROR_FAILED_ACCOUNT_CREATION = Error("u206", "Account creation failed!", 409)
 SUCCESS_ACCOUNT_CREATION = Error("u207", "Account successfully created!", 200)
-ERROR_EMAIL_INVALID = Error("u208", "Given email address is invalid or already exists in database!", 409)
-SUCCESS_EMAIL_VALID = Error("u209", "Given email address is valid and usable", 200)
+ERROR_EMAIL_ALREADY_TAKEN = Error("u208", "Given email address already exists in database!", 409)
+SUCCESS_EMAIL_AVAILABLE = Error("u209", "Given email address is available.", 200)
 
 ERROR_NONEXISTENT_FRIEND = Error("u301", "Given friend is not found in database!", 404)
 ERROR_FAILED_FRIEND_ADD = Error("u302", "Given friendship already exists in database!", 409)

@@ -1,10 +1,11 @@
 from flask_apispec import use_kwargs, marshal_with, doc
 from sqlalchemy import func
+from main import db
 from main.controllers.user import user_bp, API_CATEGORY
 from main.controllers.common.common import gen_random_uid
 from main.models.schema.user import (
-  RequestCreateAccountSchema,
-  RequestVerifyEmailSchema
+    RequestCreateAccountSchema,
+    RequestVerifyEmailSchema
 )
 from main.models.user import (
     t_user,
@@ -19,8 +20,8 @@ from main.models.common.error import (
     ERROR_EMAIL_PATTERN_INVALID,
     ERROR_FAILED_ACCOUNT_CREATION,
     SUCCESS_ACCOUNT_CREATION,
-    ERROR_EMAIL_INVALID,
-    SUCCESS_EMAIL_VALID
+    ERROR_EMAIL_ALREADY_TAKEN,
+    SUCCESS_EMAIL_AVAILABLE
 )
 import re
 import bcrypt
@@ -34,21 +35,31 @@ EMAIL_REGEX = """(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]
 @doc(tags=[API_CATEGORY],
      summary="User Create",
      description="Create account for a new user")
-def user_create(user_name, email, password, password_confirm):
+def user_create(user_name, email, password, password_confirm, avatar_num):
   if password != password_confirm:
     return ERROR_PASSWORD_CONFIRMATION.get_response()
   regex_pattern = re.compile(EMAIL_REGEX)
   if not re.fullmatch(regex_pattern, email):
     return ERROR_EMAIL_PATTERN_INVALID.get_response()
+  if get_user_by_email(email):
+    return ERROR_EMAIL_ALREADY_TAKEN.get_response()
+  
+  random_uid = None
+  while True:
+    random_uid = gen_random_uid()
+    query = db.session.query(t_user.c.user_id).filter(t_user.c.user_id == random_uid)
+    if not db.session.query(query.exists()).scalar():
+      break
 
   salt = bcrypt.gensalt()
   hashed_pw = bcrypt.hashpw(password.encode("utf-8"), salt)
   
   try:
     upsert_dict = {
-        t_user.c.user_id: gen_random_uid(),
+        t_user.c.user_id: random_uid,
         t_user.c.user_name: user_name.strip(),
         t_user.c.email: email,
+        t_user.c.avatar_num: avatar_num,
         t_user.c.password_digest: hashed_pw,
         t_user.c.review_count: 0,
         t_user.c.useful: 0,
@@ -75,7 +86,6 @@ def user_create(user_name, email, password, password_confirm):
      summary="Verify User Email",
      description="Verify email uniqueness for new user account")
 def user_verify_email(email):
-  user = get_user_by_email(email)
-  if user:
-    return ERROR_EMAIL_INVALID.get_response()
-  return SUCCESS_EMAIL_VALID.get_response()
+  if get_user_by_email(email):
+    return ERROR_EMAIL_ALREADY_TAKEN.get_response()
+  return SUCCESS_EMAIL_AVAILABLE.get_response()
