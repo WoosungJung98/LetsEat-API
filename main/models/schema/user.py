@@ -54,6 +54,7 @@ class ResponseLoginSchema(ResponseAccessTokenSchema):
 
 
 class UserInfo(Schema):
+  user_id = fields.Str(data_key="userID")
   user_name = fields.Str(data_key="userName")
   email = fields.Str()
   profile_photo = fields.Str(data_key="profilePhoto")
