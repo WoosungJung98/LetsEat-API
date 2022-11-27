@@ -25,8 +25,17 @@ class FriendList(Schema):
   avatar_num = fields.Str(data_key="avatarNum")
 
 
+class FriendRequest(Schema):
+  user_id = fields.Str(data_key="userID")
+  created_at = fields.Str(data_key="createdAt")
+
+
 class ResponseFriendListSchema(Schema):
   friend_list = fields.List(fields.Nested(FriendList), data_key="friendList")
+
+
+class ResponseFriendRequestListSchema(Schema):
+  friend_request_list = fields.List(fields.Nested(FriendRequest), data_key="friendRequestList")
 
 
 class ResponseFriendMutualSchema(Schema):
