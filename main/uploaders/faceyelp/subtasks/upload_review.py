@@ -32,7 +32,6 @@ class UploadReview(BaseTask):
             for col in column_names:
                 dat = loaded_line[col]
                 processed_line.append(dat)
-            print(processed_line)
             reviews_list.append(tuple(processed_line))
 
         f.close()
