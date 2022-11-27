@@ -3,6 +3,8 @@ from main.models.common.error import (
     ERROR_LIST_PAGE_INVALID,
     ERROR_LIST_LENGTH_INVALID
 )
+import string
+import random
 
 
 def get_page_offset(page, length):
@@ -38,3 +40,8 @@ def escape_wildcards(stmt, wildcards):
   for w in wildcards:
     stmt = stmt.replace(w, f"\\{w}")
   return stmt
+
+
+def gen_random_uid(uid_len=22):
+  available_chrs = string.ascii_uppercase + string.ascii_lowercase + string.digits + "-" + "_"
+  return "".join(random.SystemRandom().choice(available_chrs) for _ in range(uid_len))

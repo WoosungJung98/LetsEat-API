@@ -4,7 +4,7 @@ from marshmallow import Schema, fields, validate
 # Requests
 class RequestRestaurantListSchema(Schema):
   business_name = fields.Str(required = True,
-                            validate = validate.Length(min = 3, max = 255))
+                             validate = validate.Length(min = 3, max = 255))
   latitude = fields.Float(required = True,
                           validate = validate.Range(min = -90, max = 90))
   longitude = fields.Float(required = True,
@@ -64,4 +64,4 @@ class ResponseRestaurantInfoSchema(Schema):
   business_info = fields.Nested(BusinessInfo, data_key="businessInfo")
 
 class ResponseRestaurantPhotoSchema(Schema):
-  business_photo = fields.List(fields.Nested(BusinessPhoto), data_key="businessPhoto")
+  business_photo_list = fields.List(fields.Nested(BusinessPhoto), data_key="businessPhotoList")

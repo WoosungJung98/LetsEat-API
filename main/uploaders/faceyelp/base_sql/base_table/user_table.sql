@@ -2,22 +2,24 @@ DROP TABLE IF EXISTS {schema_name}.user;
 
 CREATE TABLE {schema_name}.user (
   user_id CHAR(22) PRIMARY KEY NOT NULL,
-  user_name VARCHAR(255) not null,
-  email VARCHAR(255) not null,
+  user_name VARCHAR(255) NOT NULL,
+  email VARCHAR(255) UNIQUE NOT NULL,
   profile_photo CHAR(22),
-  password_digest VARCHAR(255),
-  review_count int not null,
-  useful int not null,
-  funny int not null,
-  cool int not null,
-  created_at timestamp not null,
-  updated_at timestamp not null
+  avatar_num INT,
+  password_digest BYTEA,
+  review_count INT NOT NULL,
+  useful INT NOT NULL,
+  funny INT NOT NULL,
+  cool INT NOT NULL,
+  created_at TIMESTAMP NOT NULL,
+  updated_at TIMESTAMP NOT NULL
 );
 
 COMMENT ON COLUMN {schema_name}.user.user_id IS '22 character unique user id, maps to the user in user.json';
-COMMENT ON COLUMN {schema_name}.user.user_name IS 'the users first name';
-COMMENT ON COLUMN {schema_name}.user.email IS 'the users email';
+COMMENT ON COLUMN {schema_name}.user.user_name IS 'the users first and last name';
+COMMENT ON COLUMN {schema_name}.user.email IS 'the users email address, must be unique';
 COMMENT ON COLUMN {schema_name}.user.profile_photo IS 'the users profile photo unique ID';
+COMMENT ON COLUMN {schema_name}.user.avatar_num IS 'the users avatar number';
 COMMENT ON COLUMN {schema_name}.user.password_digest IS 'the users hashed password';
 COMMENT ON COLUMN {schema_name}.user.review_count IS 'the number of reviews theyve written';
 COMMENT ON COLUMN {schema_name}.user.useful IS 'number of useful votes sent by the user';

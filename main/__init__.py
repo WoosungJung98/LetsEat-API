@@ -4,6 +4,7 @@ import flask.json
 from flask import Flask
 from flask_restful import Api
 from flask_cors import CORS
+from flask_jwt_extended import JWTManager
 from flask_sqlalchemy import SQLAlchemy
 from apispec import APISpec
 from apispec.ext.marshmallow import MarshmallowPlugin
@@ -12,15 +13,16 @@ from flask_apispec.extension import FlaskApiSpec
 import warnings
 
 
-default_cdmdir = f"{os.getcwd()}/main/faceyelpapi.cfg"
+default_faceyelpdir = f"{os.getcwd()}/main/faceyelpapi.cfg"
 
 docs = FlaskApiSpec()
 db = SQLAlchemy()
 cors = CORS()
 api = Api()
+jwt = JWTManager()
 
 
-def read_config(config_filename=default_cdmdir):
+def read_config(config_filename=default_faceyelpdir):
   app = Flask(__name__)
   app.config.from_pyfile(config_filename)
 
@@ -34,7 +36,7 @@ class DecimalSerializeEncoder(flask.json.JSONEncoder):
     return super(DecimalSerializeEncoder, self).default(obj)
 
 
-def create_app(config_filename=default_cdmdir):
+def create_app(config_filename=default_faceyelpdir):
   app = Flask(__name__)
   app.json_encoder = DecimalSerializeEncoder
 
@@ -56,6 +58,7 @@ def create_app(config_filename=default_cdmdir):
   db.init_app(app)
   cors.init_app(app)
   api.init_app(app)
+  jwt.init_app(app)
 
   warnings.filterwarnings(
       "ignore",
@@ -64,15 +67,15 @@ def create_app(config_filename=default_cdmdir):
 
   with app.app_context():
     # Blueprints
-    # from main.controllers.auth import auth_bp
-    # from main.controllers.friend import friend_bp
+    from main.controllers.user import user_bp
+    from main.controllers.friend import friend_bp
     # from main.controllers.meal import meal_bp
     from main.controllers.restaurant import restaurant_bp
     # from main.controllers.review import review_bp
 
     blueprints = [
-        # auth_bp,
-        # friend_bp,
+        user_bp,
+        friend_bp,
         # meal_bp,
         restaurant_bp,
         # review_bp,

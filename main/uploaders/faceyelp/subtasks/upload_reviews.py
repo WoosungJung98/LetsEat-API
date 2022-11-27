@@ -5,12 +5,12 @@ import time
 import ujson
 from psycopg2.extras import execute_values
 
-class UploadPhotos(BaseTask):
+class UploadReviews(BaseTask):
     def __init__(self, conn, schema_name, sql_path, file_path):
         super().__init__(conn, schema_name, sql_path, file_path)
     
     def execute(self):
-        print("\n====================Start Uploading Photos====================\n")
+        print("\n====================Start Uploading Reviews====================\n")
         start_time = time.time()
 
         INSERT_LIMIT = 1000

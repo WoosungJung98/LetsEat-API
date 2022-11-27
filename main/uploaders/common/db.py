@@ -1,23 +1,18 @@
+from main import read_config
 import psycopg2
-
-# from main import read_config
 
 
 class UploaderDB:
   def __init__(self, cfgdir=None):
-    # if cfgdir:
-    #   cfg = read_config(cfgdir)
-    # else:
-    #   cfg = read_config()
+    if cfgdir:
+      cfg = read_config(cfgdir)
+    else:
+      cfg = read_config()
 
-    # host = cfg.config["PSQL_HOST"]
-    # password = cfg.config["PSQL_PASSWORD"]
-    # dbname = cfg.config["PSQL_DBNAME"]
-    # user = cfg.config["PSQL_USER"]
-    host = "cpsc419db.clivpnbj4oho.us-east-1.rds.amazonaws.com"
-    password = "08039797Wsj"
-    dbname = "cpsc419db"
-    user = "postgres"
+    host = cfg.config["PSQL_HOST"]
+    password = cfg.config["PSQL_PASSWORD"]
+    dbname = cfg.config["PSQL_DBNAME"]
+    user = cfg.config["PSQL_USER"]
 
     self.connect_to_db(host, password, dbname, user)
 

@@ -1,12 +1,9 @@
 from main import db
 from main.controllers.restaurant import restaurant_bp, API_CATEGORY
 from flask_apispec import use_kwargs, marshal_with, doc
-from main.controllers.common.common import (
-    convert_query_to_response,
-    escape_wildcards
-)
+from main.controllers.common.common import escape_wildcards
 from main.models.common.error import ResponseError
-from main.models.restaurant.resources import (
+from main.models.schema.restaurant import (
     RequestRestaurantListSchema,
     ResponseRestaurantListSchema
 )
