@@ -13,7 +13,7 @@ from main.models.user import t_user
 from main import db
 from sqlalchemy import func, nullslast
 
-FRIEND_LIST_LENGTH = 10
+FRIEND_LIST_LENGTH = 15
 
 
 @friend_bp.route("/list", methods=["GET"])
