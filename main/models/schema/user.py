@@ -8,7 +8,8 @@ from main.models.common.common import (
 
 # Requests
 class RequestLoginSchema(Schema):
-  email = fields.Str(required=True)
+  email = fields.Str(required=True,
+                     validate = validate.Length(min = 3, max = 255))
   password = fields.Str(required=True,
                         validate = validate.Length(min = 8, max = 255))
 
