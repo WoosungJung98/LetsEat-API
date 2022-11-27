@@ -8,6 +8,6 @@ t_friend_request = db.Table(
     db.Column("user_id", db.String(22), nullable=False),
     db.Column("friend_id", db.String(22), nullable=False),
     db.Column("created_at", db.DateTime, nullable=False),
-    db.Column("viewed_at", db.DateTime),
+    db.Column("ignored_at", db.DateTime),
     schema=app.config["SCHEMA_FACEYELP"],
     extend_existing=True)

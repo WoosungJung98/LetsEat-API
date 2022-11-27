@@ -11,8 +11,10 @@ from main.models.common.error import (
 )
 from main.models.schema.friend import RequestFriendAddSchema
 from main.models.friend import t_friend
+from main.models.friend_request import t_friend_request
 from main.models.user import get_user
 from main import db
+from sqlalchemy import func
 
 
 @friend_bp.route("/add", methods=["POST"])
@@ -32,6 +34,10 @@ def friend_add(user, friend_id):
     add_friend_query = db.insert(t_friend)\
       .values(user_id=user.user_id, friend_id=friend_id)
     db.session.execute(add_friend_query)
+    db.session.commit()
+    add_friend_request_query = db.insert(t_friend_request)\
+      .values(user_id=user.user_id, friend_id=friend_id, created_at=func.now())
+    db.session.execute(add_friend_request_query)
     db.session.commit()
   except:
     return ERROR_FAILED_FRIEND_ADD.get_response()
