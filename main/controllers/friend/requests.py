@@ -19,16 +19,18 @@ FRIEND_REQUEST_LIST_LENGTH = 10
 @marshal_with(ResponseError)
 @marshal_with(ResponseFriendRequestListSchema, code=200)
 @doc(tags=[API_CATEGORY],
-     summary="Get Friend List",
-     description="Returns the list of friends for the user",
+     summary="Get Friend Request List",
+     description="Returns the list of actionable friend requests for given user",
      params=authorization_header)
 def friend_requests(user):
   query = db\
     .select(
+      t_friend_request.c.friend_request_id,
       t_user.c.user_name,
       func.trunc((extract("epoch", func.now()) - extract("epoch", t_friend_request.c.created_at)) / 60).label("time_diff"))\
     .join(t_user, t_friend_request.c.user_id == t_user.c.user_id)\
     .where(t_friend_request.c.friend_id == user.user_id)\
+    .where(t_friend_request.c.accepted_at == None)\
     .where(t_friend_request.c.ignored_at == None)\
     .order_by(t_friend_request.c.created_at.desc())\
     .limit(FRIEND_REQUEST_LIST_LENGTH)
@@ -36,6 +38,7 @@ def friend_requests(user):
   result = db.session.execute(query)
   friend_request_results={}
   friend_request_results["friend_request_list"] = [{
+    "friend_request_id": friend_request.friend_request_id,
     "user_name": friend_request.user_name,
     "time_diff": friend_request.time_diff,
   } for friend_request in result]

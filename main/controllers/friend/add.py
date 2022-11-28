@@ -7,6 +7,7 @@ from main.models.common.error import (
     ResponseError,
     ERROR_NONEXISTENT_FRIEND,
     ERROR_FAILED_FRIEND_ADD,
+    ERROR_FRIEND_REQUEST_ALREADY_SENT,
     SUCCESS_ADD_FRIEND
 )
 from main.models.schema.friend import RequestFriendAddSchema
@@ -23,23 +24,34 @@ from sqlalchemy import func
 @use_kwargs(RequestFriendAddSchema)
 @marshal_with(ResponseError)
 @doc(tags=[API_CATEGORY],
-     summary="Add Friend to Friend List",
-     description="Returns the list of friends for the user",
+     summary="Send Friend Request",
+     description="Sends friend request to target user",
      params=authorization_header)
 def friend_add(user, friend_id):
   if not get_user(friend_id):
     return ERROR_NONEXISTENT_FRIEND.get_response()
-
-  try:
-    add_friend_query = db.insert(t_friend)\
-      .values(user_id=user.user_id, friend_id=friend_id)
-    db.session.execute(add_friend_query)
-    db.session.commit()
-    add_friend_request_query = db.insert(t_friend_request)\
-      .values(user_id=user.user_id, friend_id=friend_id, created_at=func.now())
-    db.session.execute(add_friend_request_query)
-    db.session.commit()
-  except:
+  
+  friend_query = db.session.query(t_friend.c.user_id)\
+                   .filter(t_friend.c.user_id == user.user_id)\
+                   .filter(t_friend.c.friend_id == friend_id)
+  reverse_query = db.session.query(t_friend.c.user_id)\
+                    .filter(t_friend.c.user_id == friend_id)\
+                    .filter(t_friend.c.friend_id == user.user_id)
+  result = friend_query.union_all(reverse_query).count()
+  if result == 2:
     return ERROR_FAILED_FRIEND_ADD.get_response()
+
+  fr_exists_query = db.session.query(t_friend_request.c.user_id)\
+    .filter(t_friend_request.c.user_id == user.user_id)\
+    .filter(t_friend_request.c.friend_id == friend_id)\
+    .filter(t_friend_request.c.accepted_at == None)\
+    .filter(t_friend_request.c.ignored_at == None)
+  if db.session.query(fr_exists_query.exists()).scalar():
+    return ERROR_FRIEND_REQUEST_ALREADY_SENT.get_response()
+
+  add_friend_request_query = db.insert(t_friend_request)\
+    .values(user_id=user.user_id, friend_id=friend_id, created_at=func.now())
+  db.session.execute(add_friend_request_query)
+  db.session.commit()
 
   return SUCCESS_ADD_FRIEND.get_response()
