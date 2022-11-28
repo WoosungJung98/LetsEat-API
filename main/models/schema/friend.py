@@ -26,6 +26,7 @@ class FriendList(Schema):
 
 
 class FriendRequest(Schema):
+  friend_request_id = fields.Str(data_key="friendRequestID")
   user_name = fields.Str(data_key="userName")
   time_diff = fields.Str(data_key="timeDiff")
 

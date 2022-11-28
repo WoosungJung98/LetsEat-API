@@ -34,4 +34,5 @@ SUCCESS_EMAIL_AVAILABLE = Error("u209", "Given email address is available.", 200
 
 ERROR_NONEXISTENT_FRIEND = Error("u301", "Given friend is not found in database!", 404)
 ERROR_FAILED_FRIEND_ADD = Error("u302", "Given friendship already exists in database!", 409)
-SUCCESS_ADD_FRIEND = Error("u303", "Successfully added friend to user's friend list.", 200)
+ERROR_FRIEND_REQUEST_ALREADY_SENT = Error("u302", "Friend request has already been sent to target user!", 409)
+SUCCESS_ADD_FRIEND = Error("u303", "Successfully sent friend request to target user.", 200)
