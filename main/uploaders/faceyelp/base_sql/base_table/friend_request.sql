@@ -9,6 +9,9 @@ CREATE TABLE {schema_name}.friend_request (
   ignored_at TIMESTAMP
 );
 
+CREATE UNIQUE INDEX uniq_active_request_constraint ON {schema_name}.friend_request (user_id, friend_id)
+WHERE accepted_at IS NULL AND ignored_at IS NULL;
+
 COMMENT ON COLUMN {schema_name}.friend_request.friend_request_id IS 'auto incrementing primary key for friend request';
 COMMENT ON COLUMN {schema_name}.friend_request.user_id IS 'user_id for the user initiating the friend request';
 COMMENT ON COLUMN {schema_name}.friend_request.friend_id IS 'user_id for the user receiving the friend request';
