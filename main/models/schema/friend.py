@@ -17,6 +17,14 @@ class RequestFriendAddSchema(Schema):
                          validate = validate.Length(equal = 22))
 
 
+class RequestFriendAcceptRequestSchema(Schema):
+  friend_request_id = fields.Str(required=True)
+
+
+class RequestFriendIgnoreRequestSchema(Schema):
+  friend_request_id = fields.Str(required=True)
+
+
 # Responses
 class FriendList(Schema):
   friend_id = fields.Str(data_key="friendID")
@@ -25,8 +33,18 @@ class FriendList(Schema):
   avatar_num = fields.Str(data_key="avatarNum")
 
 
+class FriendRequest(Schema):
+  friend_request_id = fields.Str(data_key="friendRequestID")
+  user_name = fields.Str(data_key="userName")
+  time_diff = fields.Str(data_key="timeDiff")
+
+
 class ResponseFriendListSchema(Schema):
   friend_list = fields.List(fields.Nested(FriendList), data_key="friendList")
+
+
+class ResponseFriendRequestListSchema(Schema):
+  friend_request_list = fields.List(fields.Nested(FriendRequest), data_key="friendRequestList")
 
 
 class ResponseFriendMutualSchema(Schema):
