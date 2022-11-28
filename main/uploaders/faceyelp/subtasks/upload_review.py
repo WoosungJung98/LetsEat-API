@@ -13,6 +13,8 @@ class UploadReview(BaseTask):
         print("\n====================Start Uploading Reviews====================\n")
         start_time = time.time()
 
+        print("JESUS")
+
         INSERT_LIMIT = 5000
         column_names = ["review_id","user_id", "business_id", "stars", 
                         "date", "text", "useful", "funny", "cool"]
