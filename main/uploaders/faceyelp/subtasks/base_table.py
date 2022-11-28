@@ -13,11 +13,12 @@ class BaseTable(BaseTask):
     tables_to_create = [
         #"business",
         #"user",
+        #"user_name_cnt_map"
         #"friend",
+        #"friend_request",
         #"photo",
         "review",
         "cities",
-        #"user_name_cnt_map"
     ]
     for tablename in tables_to_create:
       start_time = time.time()
