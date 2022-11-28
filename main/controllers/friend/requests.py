@@ -70,7 +70,9 @@ def friend_requests(user):
 def friend_accept_request(user, friend_request_id):
   friend_request = db.session.execute(
     db.select(t_friend_request.c.user_id, t_friend_request.c.friend_id)\
-    .where(t_friend_request.c.friend_request_id == friend_request_id))\
+    .where(t_friend_request.c.friend_request_id == friend_request_id)\
+    .where(t_friend_request.c.accepted_at == None)\
+    .where(t_friend_request.c.ignored_at == None))\
     .fetchone()
   if not friend_request:
     return ERROR_NONEXISTENT_FRIEND_REQUEST.get_response()
@@ -118,7 +120,9 @@ def friend_accept_request(user, friend_request_id):
 def friend_ignore_request(user, friend_request_id):
   friend_request = db.session.execute(
     db.select(t_friend_request.c.user_id, t_friend_request.c.friend_id)\
-    .where(t_friend_request.c.friend_request_id == friend_request_id))\
+    .where(t_friend_request.c.friend_request_id == friend_request_id)\
+    .where(t_friend_request.c.accepted_at == None)\
+    .where(t_friend_request.c.ignored_at == None))\
     .fetchone()
   if not friend_request:
     return ERROR_NONEXISTENT_FRIEND_REQUEST.get_response()
