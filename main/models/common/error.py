@@ -33,6 +33,9 @@ ERROR_EMAIL_ALREADY_TAKEN = Error("u208", "Given email address already exists in
 SUCCESS_EMAIL_AVAILABLE = Error("u209", "Given email address is available.", 200)
 
 ERROR_NONEXISTENT_FRIEND = Error("u301", "Given friend is not found in database!", 404)
-ERROR_FAILED_FRIEND_ADD = Error("u302", "Given friendship already exists in database!", 409)
-ERROR_FRIEND_REQUEST_ALREADY_SENT = Error("u302", "Friend request has already been sent to target user!", 409)
-SUCCESS_ADD_FRIEND = Error("u303", "Successfully sent friend request to target user.", 200)
+ERROR_ALREADY_FRIENDS = Error("u302", "Given friendship already exists in database!", 409)
+ERROR_FRIEND_REQUEST_ALREADY_SENT = Error("u303", "Friend request has already been sent to target user!", 409)
+SUCCESS_SEND_FRIEND_REQUEST = Error("u304", "Successfully sent friend request to target user.", 200)
+ERROR_NONEXISTENT_FRIEND_REQUEST = Error("u305", "Given friend request is not found in database!", 404)
+SUCCESS_ACCEPT_FRIEND_REQUEST = Error("u306", "Successfully accepted given friend request.", 200)
+SUCCESS_IGNORE_FRIEND_REQUEST = Error("u307", "Successfully ignored given friend request.", 200)

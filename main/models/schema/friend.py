@@ -17,6 +17,14 @@ class RequestFriendAddSchema(Schema):
                          validate = validate.Length(equal = 22))
 
 
+class RequestFriendAcceptRequestSchema(Schema):
+  friend_request_id = fields.Str(required=True)
+
+
+class RequestFriendIgnoreRequestSchema(Schema):
+  friend_request_id = fields.Str(required=True)
+
+
 # Responses
 class FriendList(Schema):
   friend_id = fields.Str(data_key="friendID")
