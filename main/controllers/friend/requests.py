@@ -6,6 +6,7 @@ from main.controllers.common.jwt import check_jwt_user
 from main.models.common.error import (
     ResponseError,
     ERROR_NONEXISTENT_FRIEND_REQUEST,
+    ERROR_FRIEND_REQUEST_UNAUTHORIZED,
     SUCCESS_ACCEPT_FRIEND_REQUEST,
     SUCCESS_IGNORE_FRIEND_REQUEST
 )
@@ -67,11 +68,14 @@ def friend_requests(user):
      description="Accepts a friend request specified via friend request ID",
      params=authorization_header)
 def friend_accept_request(user, friend_request_id):
-  friend_request = db.session.query(t_friend_request.c.user_id, t_friend_request.c.friend_id)\
-    .filter(t_friend_request.c.friend_request_id == friend_request_id)\
-    .scalar()
+  friend_request = db.session.execute(
+    db.select(t_friend_request.c.user_id, t_friend_request.c.friend_id)\
+    .where(t_friend_request.c.friend_request_id == friend_request_id))\
+    .fetchone()
   if not friend_request:
     return ERROR_NONEXISTENT_FRIEND_REQUEST.get_response()
+  if friend_request.friend_id != user.user_id:
+    return ERROR_FRIEND_REQUEST_UNAUTHORIZED.get_response()
 
   insert_stmt = insert(t_friend).values({
     t_friend.c.user_id: friend_request.user_id,
@@ -112,11 +116,14 @@ def friend_accept_request(user, friend_request_id):
      description="Ignores a friend request specified via friend request ID",
      params=authorization_header)
 def friend_ignore_request(user, friend_request_id):
-  friend_request = db.session.query(t_friend_request.c.user_id, t_friend_request.c.friend_id)\
-    .filter(t_friend_request.c.friend_request_id == friend_request_id)\
-    .scalar()
+  friend_request = db.session.execute(
+    db.select(t_friend_request.c.user_id, t_friend_request.c.friend_id)\
+    .where(t_friend_request.c.friend_request_id == friend_request_id))\
+    .fetchone()
   if not friend_request:
     return ERROR_NONEXISTENT_FRIEND_REQUEST.get_response()
+  if friend_request.friend_id != user.user_id:
+    return ERROR_FRIEND_REQUEST_UNAUTHORIZED.get_response()
 
   update_request_query = db.update(t_friend_request)\
     .where(t_friend_request.c.friend_request_id == friend_request_id)\
