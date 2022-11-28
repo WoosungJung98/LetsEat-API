@@ -6,9 +6,9 @@ from main.controllers.common.jwt import check_jwt_user
 from main.models.common.error import (
     ResponseError,
     ERROR_NONEXISTENT_FRIEND,
-    ERROR_FAILED_FRIEND_ADD,
+    ERROR_ALREADY_FRIENDS,
     ERROR_FRIEND_REQUEST_ALREADY_SENT,
-    SUCCESS_ADD_FRIEND
+    SUCCESS_SEND_FRIEND_REQUEST
 )
 from main.models.schema.friend import RequestFriendAddSchema
 from main.models.friend import t_friend
@@ -39,7 +39,7 @@ def friend_add(user, friend_id):
                     .filter(t_friend.c.friend_id == user.user_id)
   result = friend_query.union_all(reverse_query).count()
   if result == 2:
-    return ERROR_FAILED_FRIEND_ADD.get_response()
+    return ERROR_ALREADY_FRIENDS.get_response()
 
   fr_exists_query = db.session.query(t_friend_request.c.user_id)\
     .filter(t_friend_request.c.user_id == user.user_id)\
@@ -54,4 +54,4 @@ def friend_add(user, friend_id):
   db.session.execute(add_friend_request_query)
   db.session.commit()
 
-  return SUCCESS_ADD_FRIEND.get_response()
+  return SUCCESS_SEND_FRIEND_REQUEST.get_response()
