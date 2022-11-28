@@ -18,11 +18,11 @@ class RequestFriendAddSchema(Schema):
 
 
 class RequestFriendAcceptRequestSchema(Schema):
-  friend_request_id = fields.Str(required=True)
+  friend_request_id = fields.Int(required=True)
 
 
 class RequestFriendIgnoreRequestSchema(Schema):
-  friend_request_id = fields.Str(required=True)
+  friend_request_id = fields.Int(required=True)
 
 
 # Responses
