@@ -12,7 +12,7 @@ class RequestFriendMutualSchema(Schema):
                          validate = validate.Length(equal = 22))
 
 
-class RequestFriendAddSchema(Schema):
+class RequestFriendSendRequestSchema(Schema):
   friend_id = fields.Str(required=True,
                          validate = validate.Length(equal = 22))
 
