@@ -13,7 +13,9 @@ class BaseTable(BaseTask):
     tables_to_create = [
         #"business",
         #"user",
+        #"user_name_cnt_map"
         #"friend",
+        #"friend_request",
         #"photo",
         "review",
         "city",

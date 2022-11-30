@@ -77,6 +77,8 @@ class UserListItem(Schema):
   avatar_num = fields.Int(data_key="avatarNum", required=True, allow_none=True)
   review_count = fields.Int(data_key="reviewCount", required=True)
   created_at = DateTime(data_key="createdAt", required=True)
+  is_friend = fields.Bool(data_key="isFriend", required=True)
+  has_sent_request = fields.Bool(data_key="hasSentRequest", required=True)
 
 
 class ResponseUserListSchema(Schema):

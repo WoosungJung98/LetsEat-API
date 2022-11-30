@@ -12,17 +12,17 @@ class RequestFriendMutualSchema(Schema):
                          validate = validate.Length(equal = 22))
 
 
-class RequestFriendAddSchema(Schema):
+class RequestFriendSendRequestSchema(Schema):
   friend_id = fields.Str(required=True,
                          validate = validate.Length(equal = 22))
 
 
 class RequestFriendAcceptRequestSchema(Schema):
-  friend_request_id = fields.Str(required=True)
+  friend_request_id = fields.Int(required=True)
 
 
 class RequestFriendIgnoreRequestSchema(Schema):
-  friend_request_id = fields.Str(required=True)
+  friend_request_id = fields.Int(required=True)
 
 
 # Responses
