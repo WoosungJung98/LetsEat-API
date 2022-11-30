@@ -16,7 +16,7 @@ class BaseTable(BaseTask):
         #"friend",
         #"photo",
         "review",
-        "cities",
+        "city",
         #"user_name_cnt_map"
     ]
     for tablename in tables_to_create:
