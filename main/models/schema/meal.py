@@ -8,7 +8,8 @@ class RequestMealSendRequestSchema(Schema):
                          validate = validate.Length(equal = 22))
   restaurant_id = fields.Str(required=True,
                              validate = validate.Length(equal = 22))
-  meal_at = DateTime(required=True)
+  meal_at = fields.Str(required=True,
+                       validate = validate.Length(equal = 19))
 
 
 class RequestMealAcceptRequestSchema(Schema):
