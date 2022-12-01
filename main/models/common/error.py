@@ -40,3 +40,13 @@ ERROR_NONEXISTENT_FRIEND_REQUEST = Error("u305", "Given friend request is not fo
 ERROR_FRIEND_REQUEST_UNAUTHORIZED = Error("u306", "User does not have permission to act upon given friend request.", 401)
 SUCCESS_ACCEPT_FRIEND_REQUEST = Error("u307", "Successfully accepted given friend request.", 200)
 SUCCESS_IGNORE_FRIEND_REQUEST = Error("u308", "Successfully ignored given friend request.", 200)
+
+ERROR_NONEXISTENT_RESTAURANT = Error("u401", "Given restaurant is not found in database!", 404)
+ERROR_INVALID_MEAL_TIME = Error("u402", "Given time is invalid for scheduling meal request!", 400)
+ERROR_MEAL_ALREADY_SCHEDULED = Error("u403", "Meal has already been scheduled!", 409)
+ERROR_MEAL_REQUEST_ALREADY_SENT = Error("u404", "Meal request has already been sent to target user!", 409)
+SUCCESS_SEND_MEAL_REQUEST = Error("u405", "Successfully sent meal request to target user.", 200)
+ERROR_NONEXISTENT_MEAL_REQUEST = Error("u406", "Given meal request is not found in database!", 404)
+ERROR_MEAL_REQUEST_UNAUTHORIZED = Error("u407", "User does not have permission to act upon given meal request.", 401)
+SUCCESS_ACCEPT_MEAL_REQUEST = Error("u408", "Successfully accepted given meal request.", 200)
+SUCCESS_IGNORE_MEAL_REQUEST = Error("u409", "Successfully ignored given meal request.", 200)
