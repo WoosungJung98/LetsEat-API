@@ -30,8 +30,8 @@ class RequestCreateAccountSchema(Schema):
                         validate = validate.Length(min = 8, max = 255))
   password_confirm = fields.Str(required=True,
                                 validate = validate.Length(min = 8, max = 255))
-  avatar_num = fields.Integer(required=True,
-                              validate = validate.Range(min = 1, max = 24))
+  avatar_num = fields.Int(required=True,
+                          validate = validate.Range(min = 1, max = 24))
 
 
 class RequestVerifyEmailSchema(Schema):

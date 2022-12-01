@@ -11,7 +11,7 @@ class RequestRestaurantListSchema(Schema):
                            validate = validate.Range(min = -180, max = 180))
   radius = fields.Float(required = True,
                         validate = validate.Range(min = 1, max = 100000))
-  length = fields.Integer(validate = validate.Range(min = 1))
+  length = fields.Int(validate = validate.Range(min = 1))
 
 
 # Responses
@@ -49,7 +49,7 @@ class BusinessInfo(Schema):
   latitude = fields.Float()
   longitude = fields.Float()
   stars = fields.Float()
-  review_count = fields.Integer(data_key="reviewCount")
+  review_count = fields.Int(data_key="reviewCount")
   is_open = fields.Bool(data_key="isOpen")
   attributes = fields.Dict()
   categories = fields.List(fields.Str())
