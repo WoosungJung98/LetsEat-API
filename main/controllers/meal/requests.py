@@ -2,7 +2,6 @@ from flask_apispec import use_kwargs, marshal_with, doc
 from flask_jwt_extended import jwt_required
 
 from main.controllers.meal import meal_bp, API_CATEGORY, authorization_header
-from main.controllers.common.date import DATETIME_PATTERN
 from main.controllers.common.jwt import check_jwt_user
 from main.models.common.error import (
     ResponseError,
@@ -85,11 +84,7 @@ def meal_send_request(user, friend_id, restaurant_id, meal_at):
   restaurant_query = db.session.query(t_business.c.business_id).filter(t_business.c.business_id == restaurant_id)
   if not db.session.query(restaurant_query.exists()).scalar():
     return ERROR_NONEXISTENT_RESTAURANT.get_response()
-  try:
-    meal_at = datetime.strptime(meal_at, DATETIME_PATTERN)
-    if meal_at < datetime.now():
-      return ERROR_INVALID_MEAL_TIME.get_response()
-  except:
+  if meal_at < datetime.now():
     return ERROR_INVALID_MEAL_TIME.get_response()
 
   meal_query = db.session.query(t_meal.c.meal_id)\
@@ -145,17 +140,26 @@ def meal_accept_request(user, meal_request_id):
     t_meal.c.user_id: meal_request.user_id,
     t_meal.c.friend_id: meal_request.friend_id,
     t_meal.c.restaurant_id: meal_request.restaurant_id,
-    t_meal.c.meal_at: meal_request.meal_at
+    t_meal.c.meal_at: meal_request.meal_at,
+    t_meal.c.created_at: func.now()
   })
   do_nothing_stmt = insert_stmt.on_conflict_do_nothing(
-      index_elements=[
-        t_meal.c.user_id,
-        t_meal.c.friend_id,
-        t_meal.c.restaurant_id,
-        t_meal.c.meal_at
-      ]
+    index_elements=[t_meal.c.user_id, t_meal.c.friend_id, t_meal.c.restaurant_id, t_meal.c.meal_at]
   )
   db.session.execute(do_nothing_stmt)
+  db.session.commit()
+
+  insert_reverse_stmt = insert(t_meal).values({
+    t_meal.c.user_id: meal_request.friend_id,
+    t_meal.c.friend_id: meal_request.user_id,
+    t_meal.c.restaurant_id: meal_request.restaurant_id,
+    t_meal.c.meal_at: meal_request.meal_at,
+    t_meal.c.created_at: func.now()
+  })
+  do_nothing_reverse_stmt = insert_reverse_stmt.on_conflict_do_nothing(
+    index_elements=[t_meal.c.user_id, t_meal.c.friend_id, t_meal.c.restaurant_id, t_meal.c.meal_at]
+  )
+  db.session.execute(do_nothing_reverse_stmt)
   db.session.commit()
 
   update_request_query = db.update(t_meal_request)\
