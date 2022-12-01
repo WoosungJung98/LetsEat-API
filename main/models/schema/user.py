@@ -1,9 +1,6 @@
 from marshmallow import Schema, fields, validate
-from main.models.common.common import (
-    create_pagination_list_schema,
-    DateTime,
-    RequestPagination
-)
+from main.models.common.common import create_pagination_list_schema, RequestPagination
+from main.controllers.common.date import DATETIME_PATTERN
 
 
 # Requests
@@ -76,7 +73,7 @@ class UserListItem(Schema):
   profile_photo = fields.Str(data_key="profilePhoto", required=True, allow_none=True)
   avatar_num = fields.Int(data_key="avatarNum", required=True, allow_none=True)
   review_count = fields.Int(data_key="reviewCount", required=True)
-  created_at = DateTime(data_key="createdAt", required=True)
+  created_at = fields.DateTime(format=DATETIME_PATTERN, data_key="createdAt", required=True)
   is_friend = fields.Bool(data_key="isFriend", required=True)
   has_sent_request = fields.Bool(data_key="hasSentRequest", required=True)
 
