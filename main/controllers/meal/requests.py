@@ -2,6 +2,7 @@ from flask_apispec import use_kwargs, marshal_with, doc
 from flask_jwt_extended import jwt_required
 
 from main.controllers.meal import meal_bp, API_CATEGORY, authorization_header
+from main.controllers.common.date import DATETIME_PATTERN
 from main.controllers.common.jwt import check_jwt_user
 from main.models.common.error import (
     ResponseError,
@@ -84,7 +85,11 @@ def meal_send_request(user, friend_id, restaurant_id, meal_at):
   restaurant_query = db.session.query(t_business.c.business_id).filter(t_business.c.business_id == restaurant_id)
   if not db.session.query(restaurant_query.exists()).scalar():
     return ERROR_NONEXISTENT_RESTAURANT.get_response()
-  if meal_at < datetime.now():
+  try:
+    meal_at = datetime.strptime(meal_at, DATETIME_PATTERN)
+    if meal_at < datetime.now():
+      return ERROR_INVALID_MEAL_TIME.get_response()
+  except:
     return ERROR_INVALID_MEAL_TIME.get_response()
 
   meal_query = db.session.query(t_meal.c.meal_id)\
