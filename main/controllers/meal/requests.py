@@ -49,8 +49,11 @@ def meal_requests(user):
       t_meal_request.c.meal_request_id,
       t_user.c.user_name,
       t_user.c.avatar_num,
+      t_business.c.business_name.label("restaurant_name"),
+      t_meal_request.c.meal_at,
       func.trunc((extract("epoch", func.now()) - extract("epoch", t_meal_request.c.created_at)) / 60).label("time_diff"))\
     .join(t_user, t_meal_request.c.user_id == t_user.c.user_id)\
+    .join(t_business, t_meal_request.c.restaurant_id == t_business.c.business_id)\
     .where(t_meal_request.c.friend_id == user.user_id)\
     .where(t_meal_request.c.accepted_at == None)\
     .where(t_meal_request.c.ignored_at == None)\
@@ -64,6 +67,8 @@ def meal_requests(user):
     "user_name": meal_request.user_name,
     "avatar_num": meal_request.avatar_num,
     "time_diff": meal_request.time_diff,
+    "restaurant_name": meal_request.restaurant_name,
+    "meal_at": meal_request.meal_at,
   } for meal_request in result]
 
   return meal_request_results
