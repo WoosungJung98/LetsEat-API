@@ -32,6 +32,8 @@ class MealRequest(Schema):
   user_name = fields.Str(data_key="userName")
   avatar_num = fields.Int(data_key="avatarNum")
   time_diff = fields.Int(data_key="timeDiff")
+  restaurant_name = fields.Str(data_key="restaurantName")
+  meal_at = fields.DateTime(format=DATETIME_PATTERN, data_key="mealAt")
 
 
 class ResponseMealListSchema(Schema):
