@@ -11,6 +11,12 @@ class RequestRestaurantReviewListSchema(RequestPagination):
                            validate = validate.Range(min = 0, max = 5))
 
 
+class RequestRestaurantReviewCreateSchema(Schema):
+    body = fields.Str(required = True)
+    stars = fields.Integer(required = True,
+                           validate = validate.Range(min = 0, max = 5))
+
+
 # Responses
 class ReviewListItem(Schema):
     user_name = fields.Str(data_key="userName")

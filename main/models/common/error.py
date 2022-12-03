@@ -50,3 +50,6 @@ ERROR_NONEXISTENT_MEAL_REQUEST = Error("u406", "Given meal request is not found 
 ERROR_MEAL_REQUEST_UNAUTHORIZED = Error("u407", "User does not have permission to act upon given meal request.", 401)
 SUCCESS_ACCEPT_MEAL_REQUEST = Error("u408", "Successfully accepted given meal request.", 200)
 SUCCESS_IGNORE_MEAL_REQUEST = Error("u409", "Successfully ignored given meal request.", 200)
+
+ERROR_REVIEW_CREATE_FAILED = Error("u501", "Review creation has failed.", 409)
+SUCCESS_REVIEW_CREATE = Error("u502", "Successfully created a review.", 200)
