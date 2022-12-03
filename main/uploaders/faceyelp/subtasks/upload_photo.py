@@ -17,7 +17,6 @@ class UploadPhoto(BaseTask):
         column_names = ["photo_id","business_id", "caption", "label"]
         f = open(f"{self.file_path}/json_datasets/photos.json", "r")
         photo_list = []
-        processed_line = []
         for line in f:
             if len(photo_list) == INSERT_LIMIT:
                 print(f"Insert {INSERT_LIMIT} photos")

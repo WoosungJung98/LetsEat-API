@@ -26,8 +26,8 @@ class FaceYelpUploader(BaseUploader):
     #UploadBusiness(self.conn, schema_name, self.sql_path, self.file_path).execute()
     #UploadPhoto(self.conn, schema_name, self.sql_path, self.file_path).execute()
     #UploadUser(self.conn, schema_name, self.sql_path, self.file_path).execute()
-    #UploadReview(self.conn, schema_name, self.sql_path, self.file_path).execute()
-    UploadCities(self.conn, schema_name, self.sql_path, self.file_path).execute()
+    UploadReview(self.conn, schema_name, self.sql_path, self.file_path).execute()
+    # UploadCities(self.conn, schema_name, self.sql_path, self.file_path).execute()
     #ExtractUserNameCntMap(self.conn, schema_name, self.sql_path, self.file_path).execute()
 
     end_time = time.time()
