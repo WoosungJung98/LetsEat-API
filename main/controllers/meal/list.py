@@ -28,6 +28,7 @@ def meal_list(user):
       t_user.c.user_name.label("friend_name"),
       t_user.c.avatar_num.label("avatar_num"),
       t_business.c.business_name.label("restaurant_name"),
+      t_business.c.address.label("address"),
       t_meal.c.meal_at.label("meal_at")
     )\
     .join(t_user, t_meal.c.friend_id == t_user.c.user_id)\
@@ -43,6 +44,7 @@ def meal_list(user):
     "friend_name": meal.friend_name,
     "avatar_num": meal.avatar_num,
     "restaurant_name": meal.restaurant_name,
+    "address": meal.address,
     "meal_at": meal.meal_at
   } for meal in result]
 
