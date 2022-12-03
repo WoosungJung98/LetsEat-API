@@ -48,6 +48,12 @@ def user_create(user_name, email, password, password_confirm, avatar_num):
   while True:
     random_uid = gen_random_uid()
     query = db.session.query(t_user.c.user_id).filter(t_user.c.user_id == random_uid)
+    try
+      insert
+      break
+    except
+      continue
+
     if not db.session.query(query.exists()).scalar():
       break
 
