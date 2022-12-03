@@ -24,6 +24,7 @@ from sqlalchemy import func
 def meal_list(user):
   query = db\
     .select(
+      t_meal.c.meal_id.label("meal_id"),
       t_user.c.user_name.label("friend_name"),
       t_user.c.avatar_num.label("avatar_num"),
       t_business.c.business_name.label("restaurant_name"),
@@ -38,6 +39,7 @@ def meal_list(user):
 
   meal_results={}
   meal_results["meal_list"] = [{
+    "id": meal.meal_id,
     "friend_name": meal.friend_name,
     "avatar_num": meal.avatar_num,
     "restaurant_name": meal.restaurant_name,
