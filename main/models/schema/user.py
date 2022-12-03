@@ -91,5 +91,4 @@ class CoordinateList(Schema):
 
 
 class ResponseCityCoordinatesSchema(Schema):
-  city_coordinates_list = fields.List(fields.Nested(CoordinateList), data_key = "cityCoordinatesList")
-  
+  city_coordinate_list = fields.List(fields.Nested(CoordinateList), data_key = "cityCoordinateList")

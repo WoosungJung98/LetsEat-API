@@ -7,7 +7,7 @@ from main.models.city import t_city
 from main.models.schema.user import ResponseCityCoordinatesSchema
 from sqlalchemy import func
 
-@user_bp.route("/city_coordinates", methods=["GET"])
+@user_bp.route("/city-coordinates", methods=["GET"])
 @marshal_with(ResponseCityCoordinatesSchema, code=200)
 @marshal_with(ResponseError)
 @doc(
@@ -15,14 +15,10 @@ from sqlalchemy import func
     summary="City Coordinates",
     description="Returns city coordinates"
 )
-def city_coordinates():
+def user_city_coordinates():
     query = db.session.query(func.concat(func.trim(t_city.c.city_name), ", ", t_city.c.postal_code), t_city.c.latitude, t_city.c.longitude )
     result = query.all()
     attrs = ("city_name", "latitude", "longitude")
     return {
-        "city_coordinates_list": convert_query_to_response(attrs, result)
+        "city_coordinate_list": convert_query_to_response(attrs, result)
     }
-
-
-
-
