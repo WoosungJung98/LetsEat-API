@@ -18,3 +18,4 @@ from main.controllers.user.create import (
     user_create,
     user_verify_email
 )
+from main.controllers.user.city_coordinates import city_coordinates
