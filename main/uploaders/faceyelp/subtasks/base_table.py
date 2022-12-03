@@ -17,7 +17,7 @@ class BaseTable(BaseTask):
         #"friend",
         #"friend_request",
         #"photo",
-        "review",
+        # "review",
         "city",
         #"user_name_cnt_map"
     ]

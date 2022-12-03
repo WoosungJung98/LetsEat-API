@@ -7,3 +7,4 @@ API_CATEGORY = "Restaurant"
 from main.controllers.restaurant.list import restaurant_list
 from main.controllers.restaurant.info import restaurant_info
 from main.controllers.restaurant.photos import restaurant_photos
+from main.controllers.restaurant.reviews import restaurant_reviews

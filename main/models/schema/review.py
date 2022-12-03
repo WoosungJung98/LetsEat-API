@@ -1,26 +1,29 @@
 from marshmallow import Schema, fields, validate
-
+from main.controllers.common.date import DATETIME_PATTERN
+from main.models.common.common import (
+    RequestPagination,
+    create_pagination_list_schema
+)
 
 # Requests
-class RequestRestaurantReviewSchema(RequestPagination):
-  business_id = fields.Str(required = True,
-                             validate = validate.Length(equal = 22))
-  star = fields.Integer(required = False,
-                          validate = validate.Range(min = 0, max = 5))
-  funny = fields.Integer(required = False,
-                           validate = validate.Range(min = 0, max = 100000000))
-  useful = fields.Integer(required = False,
-                        validate = validate.Range(min = 0, max = 100000000))
-  cool = fields.Integer(required = False, 
-                        validate = validate.Range(min = 0 , max = 100000000))
+class RequestRestaurantReviewListSchema(RequestPagination):
+    stars = fields.Integer(missing = None,
+                           validate = validate.Range(min = 0, max = 5))
+
 
 # Responses
+class ReviewListItem(Schema):
+    user_name = fields.Str(data_key="userName")
+    stars = fields.Int()
+    body = fields.Str()
+    useful = fields.Int()
+    funny = fields.Int()
+    cool = fields.Int()
+    created_at = fields.DateTime(format=DATETIME_PATTERN, data_key="createdAt")
 
-class ReviewList(Schema):
-  user_name = fields.Str(data_key="userName")
-  stars = fields.Int()
-  date = fields.Str()
-  text = fields.Str()
-  useful = fields.Int()
-  funny = fields.Int()
-  cool = fields.Int()
+
+class ResponseRestaurantReviewListSchema(Schema):
+    review = fields.Nested(
+        create_pagination_list_schema(ReviewListItem),
+        required=True
+    )
