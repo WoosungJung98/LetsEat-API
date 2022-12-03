@@ -17,8 +17,9 @@ class BaseTable(BaseTask):
         #"friend",
         #"friend_request",
         #"photo",
-        "review",
-        # "cities",
+        # "review",
+        "city",
+        #"user_name_cnt_map"
     ]
     for tablename in tables_to_create:
       start_time = time.time()
