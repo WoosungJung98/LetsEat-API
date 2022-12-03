@@ -21,9 +21,11 @@ class RequestMealIgnoreRequestSchema(Schema):
 
 # Responses
 class MealList(Schema):
+  id = fields.Int()
   friend_name = fields.Str(data_key="friendName")
   avatar_num = fields.Int(data_key="avatarNum")
   restaurant_name = fields.Str(data_key="restaurantName")
+  address = fields.Str()
   meal_at = fields.DateTime(format=DATETIME_PATTERN, data_key="mealAt")
 
 
