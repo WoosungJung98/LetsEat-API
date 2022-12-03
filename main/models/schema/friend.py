@@ -30,13 +30,14 @@ class FriendList(Schema):
   friend_id = fields.Str(data_key="friendID")
   user_name = fields.Str(data_key="userName")
   profile_photo = fields.Str(data_key="profilePhoto")
-  avatar_num = fields.Str(data_key="avatarNum")
+  avatar_num = fields.Int(data_key="avatarNum")
 
 
 class FriendRequest(Schema):
   friend_request_id = fields.Str(data_key="friendRequestID")
   user_name = fields.Str(data_key="userName")
-  time_diff = fields.Str(data_key="timeDiff")
+  avatar_num = fields.Int(data_key="avatarNum")
+  time_diff = fields.Int(data_key="timeDiff")
 
 
 class ResponseFriendListSchema(Schema):

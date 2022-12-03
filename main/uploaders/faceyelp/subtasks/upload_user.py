@@ -21,7 +21,6 @@ class UploadUser(BaseTask):
                         "created_at","updated_at"]
         f = open(f"{self.file_path}/json_datasets/yelp_academic_dataset_user.json", "r")
         user_list = []
-        processed_line = []
         for line in f:
             if len(user_list) == INSERT_LIMIT_USER:
                 print(f"Insert {INSERT_LIMIT_USER} users")

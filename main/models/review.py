@@ -9,7 +9,7 @@ t_review = db.Table(
     db.Column("user_id", db.String(22), ForeignKey(f"{app.config['SCHEMA_FACEYELP']}.user.user_id"), nullable=False),
     db.Column("business_id", db.String(22), ForeignKey(f"{app.config['SCHEMA_FACEYELP']}.business.business_id"), nullable=False),
     db.Column("stars", db.Integer, nullable=False),
-    db.Column("body", db.String(255)),
+    db.Column("body", db.Text),
     db.Column("useful", db.Integer, nullable=False),
     db.Column("funny", db.Integer, nullable=False),
     db.Column("cool", db.Integer, nullable=False),

@@ -44,6 +44,7 @@ def friend_requests(user):
     .select(
       t_friend_request.c.friend_request_id,
       t_user.c.user_name,
+      t_user.c.avatar_num,
       func.trunc((extract("epoch", func.now()) - extract("epoch", t_friend_request.c.created_at)) / 60).label("time_diff"))\
     .join(t_user, t_friend_request.c.user_id == t_user.c.user_id)\
     .where(t_friend_request.c.friend_id == user.user_id)\
@@ -57,6 +58,7 @@ def friend_requests(user):
   friend_request_results["friend_request_list"] = [{
     "friend_request_id": friend_request.friend_request_id,
     "user_name": friend_request.user_name,
+    "avatar_num": friend_request.avatar_num,
     "time_diff": friend_request.time_diff,
   } for friend_request in result]
 
@@ -158,7 +160,7 @@ def friend_accept_request(user, friend_request_id):
      params=authorization_header)
 def friend_ignore_request(user, friend_request_id):
   friend_request = db.session.execute(
-    db.select(t_friend_request.c.user_id, t_friend_request.c.friend_id)\
+    db.select(t_friend_request.c.friend_id)\
     .where(t_friend_request.c.friend_request_id == friend_request_id)\
     .where(t_friend_request.c.accepted_at == None)\
     .where(t_friend_request.c.ignored_at == None))\

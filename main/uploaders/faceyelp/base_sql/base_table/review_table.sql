@@ -5,7 +5,7 @@ CREATE TABLE {schema_name}.review (
   user_id CHAR(22) NOT NULL,
   business_id CHAR(22) NOT NULL,
   stars INT NOT NULL,
-  body VARCHAR(255),
+  body TEXT,
   useful INT NOT NULL,
   funny INT NOT NULL,
   cool INT NOT NULL,
