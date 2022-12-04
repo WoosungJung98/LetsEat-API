@@ -7,6 +7,7 @@ from main.models.common.error import (
     ResponseError,
     ERROR_NONEXISTENT_FRIEND,
     ERROR_NONEXISTENT_RESTAURANT,
+    ERROR_FRIEND_REQUIRED_MEAL_REQUEST,
     ERROR_INVALID_MEAL_TIME,
     ERROR_MEAL_ALREADY_SCHEDULED,
     ERROR_MEAL_REQUEST_ALREADY_SENT,
@@ -25,6 +26,7 @@ from main.models.schema.meal import (
 from main.models.meal import t_meal
 from main.models.meal_request import t_meal_request
 from main.models.user import t_user, get_user
+from main.models.friend import t_friend
 from main.models.business import t_business
 from main import db
 from sqlalchemy import extract, func
@@ -88,6 +90,17 @@ def meal_requests(user):
 def meal_send_request(user, friend_id, restaurant_id, meal_at):
   if not get_user(friend_id):
     return ERROR_NONEXISTENT_FRIEND.get_response()
+
+  friend_query = db.session.query(t_friend.c.user_id)\
+                   .filter(t_friend.c.user_id == user.user_id)\
+                   .filter(t_friend.c.friend_id == friend_id)
+  reverse_query = db.session.query(t_friend.c.user_id)\
+                    .filter(t_friend.c.user_id == friend_id)\
+                    .filter(t_friend.c.friend_id == user.user_id)
+  result = friend_query.union_all(reverse_query).count()
+  if result != 2:
+    return ERROR_FRIEND_REQUIRED_MEAL_REQUEST.get_response()
+  
   restaurant_query = db.session.query(t_business.c.business_id).filter(t_business.c.business_id == restaurant_id)
   if not db.session.query(restaurant_query.exists()).scalar():
     return ERROR_NONEXISTENT_RESTAURANT.get_response()
