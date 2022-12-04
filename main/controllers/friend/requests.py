@@ -45,7 +45,7 @@ def friend_requests(user):
       t_friend_request.c.friend_request_id,
       t_user.c.user_name,
       t_user.c.avatar_num,
-      func.trunc((extract("epoch", func.now()) - extract("epoch", t_friend_request.c.created_at)) / 60).label("time_diff"))\
+      t_friend_request.c.created_at)\
     .join(t_user, t_friend_request.c.user_id == t_user.c.user_id)\
     .where(t_friend_request.c.friend_id == user.user_id)\
     .where(t_friend_request.c.accepted_at == None)\
@@ -59,7 +59,7 @@ def friend_requests(user):
     "friend_request_id": friend_request.friend_request_id,
     "user_name": friend_request.user_name,
     "avatar_num": friend_request.avatar_num,
-    "time_diff": friend_request.time_diff,
+    "created_at": friend_request.created_at,
   } for friend_request in result]
 
   return friend_request_results
