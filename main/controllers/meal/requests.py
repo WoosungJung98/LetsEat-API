@@ -50,6 +50,7 @@ def meal_requests(user):
       t_user.c.user_name,
       t_user.c.avatar_num,
       t_business.c.business_name.label("restaurant_name"),
+      t_business.c.address.label("restaurant_address"),
       t_meal_request.c.meal_at,
       t_meal_request.c.created_at)\
     .join(t_user, t_meal_request.c.user_id == t_user.c.user_id)\
@@ -66,9 +67,10 @@ def meal_requests(user):
     "meal_request_id": meal_request.meal_request_id,
     "user_name": meal_request.user_name,
     "avatar_num": meal_request.avatar_num,
-    "created_at": meal_request.created_at,
     "restaurant_name": meal_request.restaurant_name,
+    "restaurant_address": meal_request.restaurant_address,
     "meal_at": meal_request.meal_at,
+    "created_at": meal_request.created_at,
   } for meal_request in result]
 
   return meal_request_results
