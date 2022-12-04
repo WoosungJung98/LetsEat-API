@@ -1,5 +1,4 @@
 from marshmallow import Schema, fields, validate
-from main.controllers.common.date import DATETIME_PATTERN
 
 
 # Requests
@@ -38,7 +37,7 @@ class FriendRequest(Schema):
   friend_request_id = fields.Str(data_key="friendRequestID")
   user_name = fields.Str(data_key="userName")
   avatar_num = fields.Int(data_key="avatarNum")
-  created_at = fields.DateTime(format=DATETIME_PATTERN, data_key="createdAt")
+  created_at = fields.DateTime(format="iso", data_key="createdAt")
 
 
 class ResponseFriendListSchema(Schema):
