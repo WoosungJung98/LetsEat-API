@@ -29,7 +29,7 @@ from main.models.business import t_business
 from main import db
 from sqlalchemy import extract, func
 from sqlalchemy.dialects.postgresql import insert
-from datetime import datetime
+from datetime import datetime, timezone
 
 MEAL_REQUEST_LIST_LENGTH = 10
 
@@ -91,7 +91,7 @@ def meal_send_request(user, friend_id, restaurant_id, meal_at):
   restaurant_query = db.session.query(t_business.c.business_id).filter(t_business.c.business_id == restaurant_id)
   if not db.session.query(restaurant_query.exists()).scalar():
     return ERROR_NONEXISTENT_RESTAURANT.get_response()
-  if meal_at < datetime.now():
+  if meal_at < datetime.now(timezone.utc):
     return ERROR_INVALID_MEAL_TIME.get_response()
 
   meal_query = db.session.query(t_meal.c.meal_id)\
