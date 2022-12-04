@@ -35,12 +35,12 @@ def meal_list(user):
     .join(t_business, t_meal.c.restaurant_id == t_business.c.business_id)\
     .where(t_meal.c.user_id == user.user_id)\
     .where(t_meal.c.meal_at > func.now())\
-    .order_by(t_meal.c.meal_at)
+    .order_by(t_meal.c.meal_at.desc())
   result = db.session.execute(query)
 
   meal_results={}
   meal_results["meal_list"] = [{
-    "id": meal.meal_id,
+    "meal_id": meal.meal_id,
     "friend_name": meal.friend_name,
     "avatar_num": meal.avatar_num,
     "restaurant_name": meal.restaurant_name,
