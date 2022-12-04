@@ -35,7 +35,7 @@ def meal_list(user):
     .join(t_business, t_meal.c.restaurant_id == t_business.c.business_id)\
     .where(t_meal.c.user_id == user.user_id)\
     .where(t_meal.c.meal_at > func.now())\
-    .order_by(t_meal.c.meal_at.desc())
+    .order_by(t_meal.c.meal_at)
   result = db.session.execute(query)
 
   meal_results={}
