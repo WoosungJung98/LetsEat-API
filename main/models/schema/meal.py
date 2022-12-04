@@ -24,7 +24,7 @@ class MealList(Schema):
   friend_name = fields.Str(data_key="friendName")
   avatar_num = fields.Int(data_key="avatarNum")
   restaurant_name = fields.Str(data_key="restaurantName")
-  address = fields.Str()
+  restaurant_address = fields.Str(data_key="restaurantAddress")
   meal_at = fields.DateTime(format="iso", data_key="mealAt")
 
 
@@ -34,6 +34,7 @@ class MealRequest(Schema):
   avatar_num = fields.Int(data_key="avatarNum")
   created_at = fields.DateTime(format="iso", data_key="createdAt")
   restaurant_name = fields.Str(data_key="restaurantName")
+  restaurant_address = fields.Str(data_key="restaurantAddress")
   meal_at = fields.DateTime(format="iso", data_key="mealAt")
 
 
