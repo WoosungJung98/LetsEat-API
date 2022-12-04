@@ -1,5 +1,4 @@
 from marshmallow import Schema, fields, validate
-from main.controllers.common.date import DATETIME_PATTERN
 
 
 # Requests
@@ -8,7 +7,7 @@ class RequestMealSendRequestSchema(Schema):
                          validate = validate.Length(equal = 22))
   restaurant_id = fields.Str(required=True,
                              validate = validate.Length(equal = 22))
-  meal_at = fields.DateTime(format=DATETIME_PATTERN, required=True)
+  meal_at = fields.DateTime(format="iso", required=True)
                             
 
 class RequestMealAcceptRequestSchema(Schema):
@@ -26,16 +25,16 @@ class MealList(Schema):
   avatar_num = fields.Int(data_key="avatarNum")
   restaurant_name = fields.Str(data_key="restaurantName")
   address = fields.Str()
-  meal_at = fields.DateTime(format=DATETIME_PATTERN, data_key="mealAt")
+  meal_at = fields.DateTime(format="iso", data_key="mealAt")
 
 
 class MealRequest(Schema):
   meal_request_id = fields.Str(data_key="mealRequestID")
   user_name = fields.Str(data_key="userName")
   avatar_num = fields.Int(data_key="avatarNum")
-  created_at = fields.DateTime(format=DATETIME_PATTERN, data_key="createdAt")
+  created_at = fields.DateTime(format="iso", data_key="createdAt")
   restaurant_name = fields.Str(data_key="restaurantName")
-  meal_at = fields.DateTime(format=DATETIME_PATTERN, data_key="mealAt")
+  meal_at = fields.DateTime(format="iso", data_key="mealAt")
 
 
 class ResponseMealListSchema(Schema):
