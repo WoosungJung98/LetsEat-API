@@ -6,6 +6,7 @@ from main.controllers.common.jwt import check_jwt_user
 from main.models.common.error import (
     ResponseError,
     ERROR_NONEXISTENT_FRIEND,
+    ERROR_NO_SELF_FRIEND_REQUEST,
     ERROR_NONEXISTENT_FRIEND_REQUEST,
     ERROR_ALREADY_FRIENDS,
     ERROR_FRIEND_REQUEST_UNAUTHORIZED,
@@ -75,6 +76,8 @@ def friend_requests(user):
      description="Sends friend request to target user",
      params=authorization_header)
 def friend_send_request(user, friend_id):
+  if user.user_id == friend_id:
+    return ERROR_NO_SELF_FRIEND_REQUEST.get_response()
   if not get_user(friend_id):
     return ERROR_NONEXISTENT_FRIEND.get_response()
   
