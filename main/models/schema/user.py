@@ -83,3 +83,12 @@ class ResponseUserListSchema(Schema):
       create_pagination_list_schema(UserListItem),
       required=True
   )
+
+class CoordinateList(Schema):
+  city_name = fields.Str(data_key = "cityName")
+  latitude = fields.Float()
+  longitude = fields.Float()
+
+
+class ResponseCityCoordinatesSchema(Schema):
+  city_coordinate_list = fields.List(fields.Nested(CoordinateList), data_key = "cityCoordinateList")
