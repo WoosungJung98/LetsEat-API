@@ -13,7 +13,7 @@ from flask_apispec.extension import FlaskApiSpec
 import warnings
 
 
-default_faceyelpdir = f"{os.getcwd()}/main/faceyelpapi.cfg"
+default_letseatdir = f"{os.getcwd()}/main/letseatapi.cfg"
 
 docs = FlaskApiSpec()
 db = SQLAlchemy()
@@ -22,7 +22,7 @@ api = Api()
 jwt = JWTManager()
 
 
-def read_config(config_filename=default_faceyelpdir):
+def read_config(config_filename=default_letseatdir):
   app = Flask(__name__)
   app.config.from_pyfile(config_filename)
 
@@ -36,7 +36,7 @@ class DecimalSerializeEncoder(flask.json.JSONEncoder):
     return super(DecimalSerializeEncoder, self).default(obj)
 
 
-def create_app(config_filename=default_faceyelpdir):
+def create_app(config_filename=default_letseatdir):
   app = Flask(__name__)
   app.json_encoder = DecimalSerializeEncoder
 
@@ -44,7 +44,7 @@ def create_app(config_filename=default_faceyelpdir):
   app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
   app.config.update({
       "APISPEC_SPEC": APISpec(
-          title="FaceYelp API",
+          title="LetsEat API",
           version="0.1.0",
           openapi_version="2.0",
           plugins=[FlaskPlugin(), MarshmallowPlugin()]

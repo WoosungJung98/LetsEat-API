@@ -5,7 +5,7 @@ __pycache__/
 .vscode/
 
 #cfg
-faceyelpapi.cfg
+letseatapi.cfg
 
 #pytest
 .pytest_cache
